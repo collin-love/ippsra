@@ -19,7 +19,7 @@ jobs:
           activate-environment: ippsra
           environment-file: environment.yaml
         working-directory: tests/func
-      - run: |
+        run: |
           bash test_func.sh
   codestyle:
     runs-on: ubuntu-latest
@@ -46,6 +46,6 @@ jobs:
         activate-environment: ippsra
         environment-file: environment.yaml
     - name: run the unit test
-        working-directory: tests/unit
+      working-directory: tests/unit
       run: |
-        python test_utils.py
+        python -m unittest test_utils
