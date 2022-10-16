@@ -1,0 +1,9 @@
+name: ippsra
+channels:
+  - menpo
+  - conda-forge
+dependencies:
+  - matplotlib
+  - numpy
+  - pycodestyle
+  - opencv
