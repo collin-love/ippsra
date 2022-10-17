@@ -1,0 +1,51 @@
+name: Unit and Func Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  functional_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yaml
+        working-directory: tests/func
+        run: |
+          bash test_func.sh
+  codestyle:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yaml
+      - run: pycodestyle $(git ls-files "*.py")
+  run_unit_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Conda environment with anaconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: ippsra
+        environment-file: environment.yaml
+    - name: run the unit test
+      working-directory: tests/unit
+      run: |
+        python -m unittest test_utils
