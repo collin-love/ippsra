@@ -3,7 +3,6 @@ name: compile_and_test
 on:
   push:
     branches: [ main ]
-
   pull_request:
     branches: [ main ]
 
@@ -20,8 +19,8 @@ jobs:
             python-version: "3.7"
           - os: windows-latest
             python-version: "3.7"
-       - name: Run all of the unittests.
-         run: python tests/unit/test_utils.py --build Release --os ${{ matrix.target }}
+         - name: Run all of the unittests.
+            run: python tests/unit/test_utils.py --build Release --os ${{ matrix.target }}
 #   workflow_dispatch:
 # defaults:
 #   run:
