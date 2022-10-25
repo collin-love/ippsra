@@ -1,34 +1,63 @@
-name: Node CI
+name: compile_and_test
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ${{ matrix.os }}
+  build:
 
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest]
-                node-version: [12.x]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.7", "3.8", "3.9", "3.10", pypy-2.7, pypy-3.8]
+        exclude:
+          - os: macos-latest
+            python-version: "3.7"
+          - os: windows-latest
+            python-version: "3.7"
+       - name: Run all of the unittests.
+         run: python tests/unit/test_utils.py --build Release --os ${{ matrix.target }}
+#   workflow_dispatch:
+# defaults:
+#   run:
+#     shell: bash
 
-        steps:
-            - uses: actions/checkout@v1
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: npm install
-              run: |
-                  npm ci
-            - name: prettier format check
-              run: |
-                  npm run prettier-check
-            - name: lint format check
-              run: |
-                  npm run lint-check
-            - name: build, and test
-              run: |
-                  npm run build
-                  npm test --if-present
-              env:
-                  CI: true
+# jobs:
+#   build_and_test:
+#     name: Build & test Lamscript on ${{ matrix.os }} with ${{ matrix.compiler }}.
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest, macos-latest]
+#         compiler: [ g++-10 ]
+#         include:
+#           - os: ubuntu-latest
+#             compiler: g++-10
+#             target: Linux
+
+#           - os: macos-latest
+#             compiler: g++-10
+#             target: Macos
+
+#           - os: windows-latest
+#             compiler: cl
+#             target: Windows
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v2
+
+#       - name: Run the projects setup.
+#         run: ./scripts/setup.sh --within-ci true
+
+#       - name: Add msbuild to PATH
+#         if: ${{ matrix.os == 'windows-latest' }}
+#         uses: microsoft/setup-msbuild@v1.0.2
+
+#       - name: Run all of the unittests.
+#         run: ./tests/unit/unittest.sh --build Release --os ${{ matrix.target }}
