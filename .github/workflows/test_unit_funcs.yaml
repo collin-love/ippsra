@@ -19,7 +19,7 @@ jobs:
           activate-environment: ippsra
           environment-file: environment.yml
         working-directory: tests/func
-        run: |
+        - run: |
           bash test_func.sh
   codestyle:
     runs-on: ubuntu-latest
