@@ -32,5 +32,5 @@ jobs:
         with:
           activate-environment: ippsra
           environment-file: environment.yml
-      - name: Run the unittests
+      - name: Running unit tests
         run: bash tests/unit/unittest.sh

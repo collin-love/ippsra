@@ -1,9 +1,0 @@
-name: ippsraTEST
-channels:
-  - defaults
-  - conda-forge
-dependencies:
-  - matplotlib
-  - numpy
-  - pycodestyle
-  - opencv
