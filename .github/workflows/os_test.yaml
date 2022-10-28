@@ -1,4 +1,4 @@
-name: compile_and_test
+name: Style Check and Unittest
 
 on:
   push:
@@ -7,18 +7,28 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
-        exclude:
-          - os: macos-latest
-            python-version: "3.7"
-          # - os: windows-latest
-          #   python-version: "3.7"{{ matrix.target }}
+  functional_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+  codestyle:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: hw7
+          environment-file: environment.yaml
+      - run: pycodestyle $(git ls-files "*.py")
+  run_unit_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
