@@ -7,11 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-  functional_tests:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
   codestyle:
     runs-on: ubuntu-latest
     defaults:
@@ -24,6 +19,7 @@ jobs:
           activate-environment: hw7
           environment-file: environment.yaml
       - run: pycodestyle $(git ls-files "*.py")
+
   run_unit_test:
     runs-on: ubuntu-latest
     defaults:
@@ -32,6 +28,5 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
       - name: Run the projects setup.
         run: ./tests/unit/unittest.sh
