@@ -7,20 +7,20 @@ on:
     branches: [ main ]
 
 jobs:
-  functional_tests:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: ippsra
-          environment-file: environment.yml
-        working-directory: tests/func
-        - run: |
-          bash test_func.sh
+  # functional_tests:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       shell: bash -l {0}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: conda-incubator/setup-miniconda@v2
+  #       with:
+  #         activate-environment: ippsra
+  #         environment-file: environment.yml
+  #       working-directory: tests/func
+  #       - run: |
+  #         bash test_func.sh
   codestyle:
     runs-on: ubuntu-latest
     defaults:
@@ -46,6 +46,5 @@ jobs:
         activate-environment: ippsra
         environment-file: environment.yml
     - name: run the unit test
-      working-directory: tests/unit
       run: |
-        python -m unittest test_utils
+        python -m unittest tests/unit/test_utils.py
