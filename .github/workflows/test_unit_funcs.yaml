@@ -18,5 +18,4 @@ jobs:
         with:
           activate-environment: ippsra
         - run: |
-          tests/func/test_func.sh
-
+          bash tests/func/test_func.sh

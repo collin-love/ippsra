@@ -5,4 +5,4 @@ import sys
 sys.path.append('src/ippsra')
 import utils  # nopep8
 
-utils.test('this is it')
+utils.test('this tes_utils ran')
