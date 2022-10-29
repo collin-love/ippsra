@@ -6,4 +6,7 @@ dependencies:
   - matplotlib
   - numpy
   - pycodestyle
-  - opencv
+  - pip
+  - pip: 
+    - opencv-python
+    - opencv-contrib-python

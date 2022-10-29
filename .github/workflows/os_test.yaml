@@ -1,34 +1,53 @@
-name: Node CI
+name: Style Check and Unittest
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ${{ matrix.os }}
 
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest]
-                node-version: [12.x]
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Cache OpenCV
+  #       id: cache-open-cv
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ../OpenCV
+  #         key: ${{ runner.os }}-OpenCVCache
 
-        steps:
-            - uses: actions/checkout@v1
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: npm install
-              run: |
-                  npm ci
-            - name: prettier format check
-              run: |
-                  npm run prettier-check
-            - name: lint format check
-              run: |
-                  npm run lint-check
-            - name: build, and test
-              run: |
-                  npm run build
-                  npm test --if-present
-              env:
-                  CI: true
+  #     - name: Install OpenCV
+  #       uses: florianblume/install-opencv-action@v1
+  #       with:
+  #       cached: ${{ steps.cache-open-cv.outputs.cache-hit }}
+
+  codestyle:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yml
+      - name: Run pycodestyle test
+        run: pycodestyle $(git ls-files "*.py")
+
+  run_unit_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yml
+      - name: Running unit tests
+        run: bash tests/unit/unittest.sh
