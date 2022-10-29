@@ -6,12 +6,10 @@
 - [ippsra](#ippsra)
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
-  - [Environment Setup](#environment-setup)
   - [Installation / Setup](#installation--setup)
-    - [Data Installation](#data-installation)
+  - [Environment Setup](#environment-setup)
   - [Example](#example)
   - [Example for running new unit and functional test](#example-for-running-new-unit-and-functional-test)
-  - [Example with a *specific variation* specified](#example-with-a-specific-variation-specified)
   - [Change log](#change-log)
 
 
@@ -25,12 +23,6 @@
 ```
 </details>
 
-### Environment Setup
-- ENV setup for this project below
-    ```
-    ```
-- Once the environment is created the following terminal commands can be ran
-
 ### Installation / Setup
 - Clone this repository and cd into it
     ```
@@ -40,19 +32,27 @@
     cd ippsra
     ```
 
-#### Data Installation
+### Environment Setup
+- ENV setup for this project below
+    ```
+    conda env create -f environment.yaml
+    conda activate ippsra
+    ```
+- Once the environment is created the following terminal commands can be ran
+
+<!-- #### Data Installation
 - To install the data do *whatever*
     ```
     wget 
     ```
 - To install data do *whatever*
     
-    ```
+    ``` -->
 
 ### Example
-- The images show *X* or in the 
-  [usage](#usage) section
-- Once everything is setup in the repository, the following line can be ran 
+- The images that ares used to test are in the data/test directory. This subset
+  of data is a good representation of many cases of normal and outlier images
+- Once everything is set up in the repository, the following line can be ran 
 ```
 __some code to run something__
 ```
@@ -72,14 +72,32 @@ __some code to run something__
 
 ### Example for running new unit and functional test 
 - To run all of the new function and unit test simply paste this line in your
-  terminal. 
+  terminal from the home directory for the project.
 ```
-bash run.sh
+for linux systems 
+cd ~/ippsra
+bash tests/unit/unittest.sh
 ```
 - The output should like the below block of text.
 
 <details>
-  <summary> Terminal Output</summary>
+  <summary> Unit Test Terminal Output</summary>
+  <br>
+
+```
+
+```
+</details>
+
+```
+for linux systems 
+cd ~/ippsra
+bash tests/func/test_func.sh
+```
+- The output should like the below block of text.
+
+<details>
+  <summary> Function Test Terminal Output</summary>
   <br>
 
 ```
@@ -88,10 +106,13 @@ bash run.sh
 
 </details>
 
-### Example with a *specific variation* specified 
+
+<!-- ### Example with a *specific variation* specified 
 - Once everything is setup in the repository, the following line can be ran 
 ```
-__some code to run something__
+for linux systems 
+cd ~/ippsra
+bash tests/unit/unittest.sh
 ```
 - The output in the terminal will look like the following
 
@@ -103,7 +124,7 @@ __some code to run something__
 ```
 <center><img src="/docs/img/Thenvsnow.jpeg" width="100%"/></center>
 
-</details>
+</details> -->
 
 ### Change log
 - v1.0
