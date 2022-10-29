@@ -7,6 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache OpenCV
+        id: cache-open-cv
+        uses: actions/cache@v1
+        with:
+          path: ../OpenCV
+          key: ${{ runner.os }}-OpenCVCache
+
+      - name: Install OpenCV
+        uses: florianblume/install-opencv-action@v1
+        with:
+        cached: ${{ steps.cache-open-cv.outputs.cache-hit }}
+
   codestyle:
     runs-on: ubuntu-latest
     defaults:
