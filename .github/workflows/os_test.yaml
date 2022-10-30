@@ -51,8 +51,6 @@ jobs:
       - name: Running unit tests
         run: python -m unittest tests/unit/test_utils.py
       - name: Running functional test
-        run: |
-          bash tests/func/test_search.sh
 
   macos_function_test:
     runs-on: macos-12
@@ -67,4 +65,4 @@ jobs:
           environment-file: environment.yml
       - name: Running functional test
         run: |
-          bash tests/func/test_search.sh
+          bash tests/func/test_func.sh
