@@ -54,6 +54,9 @@ jobs:
 
   macos_test:
     runs-on: macos-12
+      defaults:
+      run:
+        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
       - uses: conda-incubator/setup-miniconda@v2
