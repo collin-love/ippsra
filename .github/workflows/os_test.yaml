@@ -54,7 +54,7 @@ jobs:
 
   macos_test:
     runs-on: macos-12
-      defaults:
+    defaults:
       run:
         shell: bash -l {0}
     steps:
