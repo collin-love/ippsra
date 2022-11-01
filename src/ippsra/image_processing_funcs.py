@@ -80,11 +80,10 @@ class ImageAnalysis():
         in the image. Currently, this is a ranking from the range of 1-3. This
         was chosen based on the simplicity of the ranking. By this it is
         simple to say that: the ranking 1 contains no obstructions in the image
-        that is
-        being processed, the ranking 2 contains less than 25% of coverage, and
-        3 is anything above 25%. (This is a generalization and is dependant
-        on the size of the aircraft, but we have to assume a spacecraft size)
-        We will work on exactly how this is determined
+        that is being processed, the ranking 2 contains less than 25% of
+        coverage, and 3 is anything above 25%. (This is a generalization and
+        is dependant on the size of the aircraft, but we have to assume a
+        spacecraft size) We will work on exactly how this is determined
 
         Args:
             img (array): image containing the bounding boxes from 'bounding.py'

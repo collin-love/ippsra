@@ -36,32 +36,40 @@ class TestAlgoDev(unittest.TestCase):
         cls.hazard_score_false = None
 
     def test_num_hazards(self):
-        self.assertTrue(image_processing_funcs.ImageAnalysis.num_hazards(self.img),
-                        self.hazard_count)
+        self.assertTrue(
+            image_processing_funcs.ImageAnalysis.num_hazards(self.img),
+            self.hazard_count)
 
-        self.assertFalse(image_processing_funcs.ImageAnalysis.num_hazards(self.img),
-                         self.hazard_count_false)
+        self.assertFalse(
+            image_processing_funcs.ImageAnalysis.num_hazards(self.img),
+            self.hazard_count_false)
 
     def test_size_hazards(self):
-        self.assertTrue(image_processing_funcs.ImageAnalysis.size_hazards(self.img),
-                        self.hazard_size)
+        self.assertTrue(
+            image_processing_funcs.ImageAnalysis.size_hazards(self.img),
+            self.hazard_size)
 
-        self.assertFalse(image_processing_funcs.ImageAnalysis.size_hazards(self.img),
-                         self.hazard_size_false)
+        self.assertFalse(
+            image_processing_funcs.ImageAnalysis.size_hazards(self.img),
+            self.hazard_size_false)
 
     def test_density_hazards(self):
-        self.assertTrue(image_processing_funcs.ImageAnalysis.density_hazards(self.img),
-                        self.hazard_density)
+        self.assertTrue(
+            image_processing_funcs.ImageAnalysis.density_hazards(self.img),
+            self.hazard_density)
 
-        self.assertFalse(image_processing_funcs.ImageAnalysis.density_hazards(self.img),
-                         self.hazard_density_false)
+        self.assertFalse(
+            image_processing_funcs.ImageAnalysis.density_hazards(self.img),
+            self.hazard_density_false)
 
     def test_hazard_score(self):
-        self.assertTrue(image_processing_funcs.ImageAnalysis.hazard_score(self.img),
-                        self.hazard_score)
+        self.assertTrue(
+            image_processing_funcs.ImageAnalysis.hazard_score(self.img),
+            self.hazard_score)
 
-        self.assertFalse(image_processing_funcs.ImageAnalysis.hazard_score(self.img),
-                         self.hazard_score_false)
+        self.assertFalse(
+            image_processing_funcs.ImageAnalysis.hazard_score(self.img),
+            self.hazard_score_false)
 
 
 if __name__ == '__main__':
