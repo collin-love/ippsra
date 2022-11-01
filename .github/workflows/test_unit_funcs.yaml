@@ -1,4 +1,4 @@
-name: Unit and Func Tests
+name: Func Tests
 
 on:
   push:
@@ -19,4 +19,19 @@ jobs:
           activate-environment: ippsra
           environment-file: environment.yml
       - run: |
+          bash tests/func/test_func.sh
+
+  macos_function_test:
+    runs-on: macos-12
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yml
+      - name: Running functional test
+        run: |
           bash tests/func/test_func.sh
