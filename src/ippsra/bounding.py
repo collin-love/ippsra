@@ -34,11 +34,11 @@ def thresh_callback(val):
           (int(boundRect[i][0]+boundRect[i][2]), int(boundRect[i][1]+boundRect[i][3])), color, 2)
         cv.circle(drawing, (int(centers[i][0]), int(centers[i][1])), int(radius[i]), color, 2)
     
-    
+    return drawing
     cv.imshow('Contours', drawing)
     
 parser = argparse.ArgumentParser(description='Code for Creating Bounding boxes and circles for contours tutorial.')
-parser.add_argument('--input', help='Path to input image.', default='data/images/render/render9327.png')
+parser.add_argument('--input', help='Path to input image.', default='../../data/images/render/render9327.png')
 args = parser.parse_args()
 src = cv.imread(cv.samples.findFile(args.input))
 if src is None:
