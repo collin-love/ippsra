@@ -50,7 +50,6 @@ jobs:
         run: pycodestyle $(git ls-files "*.py")
       - name: Running unit tests
         run: python -m unittest tests/unit/test_utils.py
-      - name: Running functional test
 
   macos_function_test:
     runs-on: macos-12
