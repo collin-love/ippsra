@@ -1,3 +1,5 @@
+![](https://github.com/collin-love/ippsra/blob/test_and_style/docs/img/examples/welcome.gif)
+
 ## ippsra
 > Image Processing Pipeline for Space Robotic Applications
 
