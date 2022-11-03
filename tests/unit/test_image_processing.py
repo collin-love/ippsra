@@ -17,7 +17,7 @@ print('testing image_processing')
 #         cls.hazard_count = 1
 #         cls.hazard_count_false = 3
 #         # cls.files = ['.png']  # WHAT IMAGE ?
-#         # cls.img = bounding.thresh_callback(files)  # NEED TO RETURN DRAWING!!
+#        cls.img = bounding.thresh_callback(files)  # NEED TO RETURN DRAWING!!
 #         cls.hazard_size = 150  # NEED TO CHECK
 #         cls.hazard_size_false = 150  # NEED TO CHECK
 #         cls.hazard_density = 0.5  # NEED TO CHECK
