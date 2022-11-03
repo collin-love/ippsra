@@ -1,4 +1,7 @@
-"""
+"""This script contains the first testing of finding different obstacles within
+an image using OpenCV and python. Currently this script is only focusing on
+one image now from a handpicked data set that contains clean, normal, and
+obvious to the human eye images.
 """
 import cv2 as cv
 import numpy as np
