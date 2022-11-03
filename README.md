@@ -45,7 +45,7 @@ options:
 ### Environment Setup
 - ENV setup for this project below
     ```
-    conda env create -f environment.yaml
+    conda env create -f environment.yml
     conda activate ippsra
     ```
 - Once the environment is created the following terminal commands can be ran
