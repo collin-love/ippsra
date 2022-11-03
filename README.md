@@ -65,7 +65,7 @@ options:
 - Once everything is set up in the repository, the following line can be ran
  from the home directory for the project.
 ```
-python src\ippsra\bounding.py
+python src/ippsra/bounding.py
 ```
 - The output in the terminal will look like the following
 
