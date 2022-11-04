@@ -3,11 +3,11 @@ channels:
   - menpo
   - conda-forge
 dependencies:
-  - matplotlib
-  - numpy
-  - pycodestyle
+  - python
   - pip
   - pip: 
     - opencv-python
     - opencv-contrib-python
     - pycodestyle
+    - matplotlib
+    - numpy

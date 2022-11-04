@@ -1,3 +1,5 @@
+![](https://github.com/collin-love/ippsra/blob/test_and_style/docs/img/examples/welcome.gif)
+
 ## ippsra
 > Image Processing Pipeline for Space Robotic Applications
 
@@ -14,12 +16,20 @@
 
 
 ### Usage
+- The default for this project at the moment for the path is "./data/images/
+ render/render9327.png"
 <details>
   <summary>Help Output</summary>
   <br>
 
 ```
+usage: bounding.py [-h] [--input INPUT]
 
+Code for Creating Bounding boxes and circles for contours tutorial.
+
+options:
+  -h, --help     show this help message and exit
+  --input INPUT  Path to input image.
 ```
 </details>
 
@@ -35,7 +45,7 @@
 ### Environment Setup
 - ENV setup for this project below
     ```
-    conda env create -f environment.yaml
+    conda env create -f environment.yml
     conda activate ippsra
     ```
 - Once the environment is created the following terminal commands can be ran
@@ -52,9 +62,10 @@
 ### Example
 - The images that ares used to test are in the data/test directory. This subset
   of data is a good representation of many cases of normal and outlier images
-- Once everything is set up in the repository, the following line can be ran 
+- Once everything is set up in the repository, the following line can be ran
+ from the home directory for the project.
 ```
-__some code to run something__
+python src/ippsra/bounding.py
 ```
 - The output in the terminal will look like the following
 
@@ -64,11 +75,11 @@ __some code to run something__
 
 ```
 ```
-<center><img src="/docs/img/passing.jpeg" width="100%"/></center>
+<center><img src="/docs/img/bounding_output.png" width="100%"/></center>
 
 </details>
 
-- These *params* can be varied by *X*
+<!-- - These *params* can be varied by *X* -->
 
 ### Example for running new unit and functional test 
 - To run all of the new function and unit test simply paste this line in your
@@ -76,16 +87,24 @@ __some code to run something__
 ```
 for linux systems 
 cd ~/ippsra
-bash tests/unit/unittest.sh
+python -m unittest tests/unit/test_utils.py
 ```
-- The output should like the below block of text.
+- The output should like the below block of text. (these are testing CI, so
+  they don't mean anything at the moment)
 
 <details>
   <summary> Unit Test Terminal Output</summary>
   <br>
 
 ```
+Height = 480,  Width = 720
+this Utils ran
+this tes_utils ran
 
+----------------------------------------------------------------------
+Ran 0 tests in 0.000s
+
+OK
 ```
 </details>
 
@@ -94,14 +113,15 @@ for linux systems
 cd ~/ippsra
 bash tests/func/test_func.sh
 ```
-- The output should like the below block of text.
+- The output should like the below block of text. (these are testing CI, so
+  they don't mean anything at the moment)
 
 <details>
   <summary> Function Test Terminal Output</summary>
   <br>
 
 ```
-
+this func ran
 ```
 
 </details>
