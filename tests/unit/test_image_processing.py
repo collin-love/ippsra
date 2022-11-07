@@ -16,9 +16,9 @@ class TestAlgoDev(unittest.TestCase):
     def setUpClass(cls):
         cls.hazard_count = 1
         cls.hazard_count_false = 3
-        # cls.files = ['../../data/images/render/render9269.png']  # WHAT IMAGE ?
-        # cls.img = bounding.thresh_callback(cls.files)  # NEED TO RETURN DRAWING!!
-        cls.img = bounding.thresh_callback()
+        # cls.files = ['../../data/images/render/render9269.png']
+        # cls.img = bounding.thresh_callback(cls.files)
+        cls.img = bounding.thresh_callback(200)
         cls.hazard_size = 150  # NEED TO CHECK
         cls.hazard_size_false = 150  # NEED TO CHECK
         cls.hazard_density = 0.5  # NEED TO CHECK

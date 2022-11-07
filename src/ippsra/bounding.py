@@ -64,8 +64,8 @@ cv.namedWindow(source_window)
 cv.imshow(source_window, src)
 max_thresh = 255
 threshold = 200  # initial threshold
-image = np.asarray(src)
-print(image)
+# image = np.asarray(src)
+# print(image)
 cv.createTrackbar('Canny thresh:', source_window, threshold, max_thresh,
                   thresh_callback)
 thresh_callback(threshold)
