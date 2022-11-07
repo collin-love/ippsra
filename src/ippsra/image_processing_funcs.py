@@ -4,9 +4,11 @@ in an image thus allowing for the summation of how many found stones/boulders
 """
 import cv2 as cv
 import numpy as np
+import bounding
 
 
 class ImageAnalysis():
+
     @classmethod
     def __init__(self):
         """Sets the threshold values for the various rankings of the density
@@ -15,8 +17,12 @@ class ImageAnalysis():
         # self.dangerous_threshold = 0.4
         self.risky_threshold = 0.25
         self.allowable_threshold = 0.1
+        self.hazard_area_threshold = 15000  # pixels
+        self.test_img = './data/images/render/render9327.png'
+        self.thresh = 200
 
-    def num_hazards(self, img):
+# NEED TO UPDATE TO TAKE IN IMG
+    def num_hazards(self):
         """This function takes in the .png image containing the bounding
         boxes from 'bounding.py'. It then iterates through a masked numpy
         array (array containing ones and zeros) to identify locations of
@@ -29,19 +35,20 @@ class ImageAnalysis():
         Returns:
             array: coordinates of bounding boxes.
         """
+        delta_x, delta_y, hazard_count = bounding.thresh_callback(self.thresh)
         # IMG == DRAWING IN REINAS CODE
-        img = np.asarray(img)
+        # img = np.asarray(img)
+        # rows = np.any(img, axis=1)
+        # cols = np.any(img, axis=0)
+        # rmin = np.argmax(rows)
+        # rmax = img.shape[0] - 1 - np.argmax(np.flipud(rows))
+        # cmin = np.argmax(cols)
+        # cmax = img.shape[1] - 1 - np.argmax(np.flipud(cols))
 
-        rows = np.any(img, axis=1)
-        cols = np.any(img, axis=0)
-        rmin = np.argmax(rows)
-        rmax = img.shape[0] - 1 - np.argmax(np.flipud(rows))
-        cmin = np.argmax(cols)
-        cmax = img.shape[1] - 1 - np.argmax(np.flipud(cols))
+        return delta_x, delta_y, hazard_count
 
-        return rmin, rmax, cmin, cmax
-
-    def size_hazards(self, img):
+# NEED TO UPDATE TO TAKE IN IMG
+    def size_hazards(self):
         """Computes the absolute area that is covered by bounding boxes.
 
         Args:
@@ -50,12 +57,22 @@ class ImageAnalysis():
         Returns:
             int: total area encompassed by the bounding boxes in an image.
         """
-        rmin, rmax, cmin, cmax = self.num_hazards(img)
-        area = (rmax - rmin) * (cmax - cmin)
-        area = np.absolute(area)
-        return area
+        delta_x, delta_y, hazard_count = self.num_hazards()
+        # area = (rmax - rmin) * (cmax - cmin)
+        # area = np.absolute(area)
+        area = []
+        for i in range(len(delta_x)):
+            area_i = delta_x[i]*delta_y[i]
+            area.append(area_i)
+            if area[i] > self.hazard_area_threshold:
+                area[i] = 0
 
-    def density_hazards(self, img):
+        haz_area_tot = sum(area)
+        return haz_area_tot
+        # return area
+
+# NEED TO UPDATE TO TAKE IN IMG
+    def density_hazards(self):
         """Function to determine a ratio between the area covered by the
         hazards and the total area in the image.
 
@@ -65,17 +82,18 @@ class ImageAnalysis():
         Returns:
             int: Density ratio of area of bounding boxes to area of the image.
         """
-        area = self.size_hazards(img)
+        haz_area_tot = self.size_hazards()
 
-        undoctored_img = cv.imread(img)
+        undoctored_img = cv.imread(self.test_img)
         # Extracting the height and width of an image
         h, w = undoctored_img.shape[:2]
         undoctored_area = np.absolute(h * w)
-        density = np.absolute(area / undoctored_area)
+        density = np.absolute(haz_area_tot / undoctored_area)
 
         return density
 
-    def hazard_score(self, img):
+# NEED TO UPDATE TO TAKE IN IMG
+    def hazard_score(self):
         """The function for the ranking of images based on the detected hazards
         in the image. Currently, this is a ranking from the range of 1-3. This
         was chosen based on the simplicity of the ranking. By this it is
@@ -91,7 +109,7 @@ class ImageAnalysis():
         Returns:
             int: The ranking of how the image ranks on the ranking scale (1-3)
         """
-        density = self.density_hazards(img)
+        density = self.density_hazards()
         if density <= self.allowable_threshold:
             score = 1  # Great score (1-3 scale ATM)
             return score
@@ -101,3 +119,9 @@ class ImageAnalysis():
         else:
             score = 3  # Bad score
             return score
+
+
+print(ImageAnalysis().num_hazards())
+print(ImageAnalysis().size_hazards())
+print(ImageAnalysis().density_hazards())
+print(ImageAnalysis().hazard_score())

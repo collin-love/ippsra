@@ -14,14 +14,14 @@ class TestAlgoDev(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.hazard_count = 1
-        cls.hazard_count_false = 3
+        cls.hazard_count = 69
+        cls.hazard_count_false = 102
         # cls.files = ['../../data/images/render/render9269.png']
         # cls.img = bounding.thresh_callback(cls.files)
         cls.img = bounding.thresh_callback(200)
-        cls.hazard_size = 150  # NEED TO CHECK
-        cls.hazard_size_false = 150  # NEED TO CHECK
-        cls.hazard_density = 0.5  # NEED TO CHECK
+        cls.hazard_size = 13629  # NEED TO CHECK
+        cls.hazard_size_false = 15000  # NEED TO CHECK
+        cls.hazard_density = 0.03943576388888889
         cls.hazard_density_false = 0.5  # NEED TO CHECK
         cls.hazard_score = 1  # NEED TO CHECK
         cls.hazard_score_false = 3  # NEED TO CHECK
@@ -41,38 +41,38 @@ class TestAlgoDev(unittest.TestCase):
 
     def test_num_hazards(self):
         self.assertTrue(
-            image_processing_funcs.ImageAnalysis.num_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.num_hazards(self),
             self.hazard_count)
 
         self.assertFalse(
-            image_processing_funcs.ImageAnalysis.num_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.num_hazards(self),
             self.hazard_count_false)
 
     def test_size_hazards(self):
         self.assertTrue(
-            image_processing_funcs.ImageAnalysis.size_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.size_hazards(self),
             self.hazard_size)
 
         self.assertFalse(
-            image_processing_funcs.ImageAnalysis.size_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.size_hazards(self),
             self.hazard_size_false)
 
     def test_density_hazards(self):
         self.assertTrue(
-            image_processing_funcs.ImageAnalysis.density_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.density_hazards(self),
             self.hazard_density)
 
         self.assertFalse(
-            image_processing_funcs.ImageAnalysis.density_hazards(self.img),
+            image_processing_funcs.ImageAnalysis.density_hazards(self),
             self.hazard_density_false)
 
     def test_hazard_score(self):
         self.assertTrue(
-            image_processing_funcs.ImageAnalysis.hazard_score(self.img),
+            image_processing_funcs.ImageAnalysis.hazard_score(self),
             self.hazard_score)
 
         self.assertFalse(
-            image_processing_funcs.ImageAnalysis.hazard_score(self.img),
+            image_processing_funcs.ImageAnalysis.hazard_score(self),
             self.hazard_score_false)
 
 
