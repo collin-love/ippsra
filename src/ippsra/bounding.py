@@ -34,17 +34,25 @@ def thresh_callback(threshold):
     drawing = np.zeros((canny_output.shape[0], canny_output.shape[1], 3),
                        dtype=np.uint8)
 
+    delta_x = []
+    delta_y = []
     for i in range(len(contours)):
         color = (rng.randint(0, 256), rng.randint(0, 256), rng.randint(0, 256))
         cv.drawContours(drawing, contours_poly, i, color)
         cv.rectangle(drawing, (int(boundRect[i][0]), int(boundRect[i][1])),
                      (int(boundRect[i][0]+boundRect[i][2]),
                       int(boundRect[i][1]+boundRect[i][3])), color, 2)
-        cv.circle(drawing, (int(centers[i][0]), int(centers[i][1])),
-                  int(radius[i]), color, 2)
+        delta_xi = int(boundRect[i][2])
+        delta_x.append(delta_xi)
+        delta_yi = int(boundRect[i][3])
+        delta_y.append(delta_yi)
+        # cv.circle(drawing, (int(centers[i][0]), int(centers[i][1])),
+        #           int(radius[i]), color, 2)
 
+    hazard_count = len(contours)
     cv.imshow('Contours', drawing)
-    return drawing
+    # print(delta_x)
+    return delta_x, delta_y, hazard_count
 
 
 parser = argparse.ArgumentParser(description='Code for Creating Bounding '
@@ -61,12 +69,11 @@ src_gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
 src_gray = cv.blur(src_gray, (3, 3))
 source_window = 'Source'
 cv.namedWindow(source_window)
-cv.imshow(source_window, src)
+# cv.imshow(source_window, src)
 max_thresh = 255
 threshold = 200  # initial threshold
-# image = np.asarray(src)
-# print(image)
+
 cv.createTrackbar('Canny thresh:', source_window, threshold, max_thresh,
                   thresh_callback)
 thresh_callback(threshold)
-cv.waitKey()
+# cv.waitKey()
