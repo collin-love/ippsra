@@ -44,12 +44,13 @@ def thresh_callback(threshold):
                   int(radius[i]), color, 2)
 
     cv.imshow('Contours', drawing)
+    return drawing
 
 
 parser = argparse.ArgumentParser(description='Code for Creating Bounding '
                                  + 'boxes and circles for contours tutorial.')
 parser.add_argument('--input', help='Path to input image.',
-                    default='./data/images/render/render9327.png')
+                    default='../../data/images/render/render9327.png')
 args = parser.parse_args()
 src = cv.imread(cv.samples.findFile(args.input))
 if src is None:
