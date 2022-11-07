@@ -44,12 +44,13 @@ def thresh_callback(threshold):
                   int(radius[i]), color, 2)
 
     cv.imshow('Contours', drawing)
+    return drawing
 
 
 parser = argparse.ArgumentParser(description='Code for Creating Bounding '
                                  + 'boxes and circles for contours tutorial.')
 parser.add_argument('--input', help='Path to input image.',
-                    default='./data/images/render/render9327.png')
+                    default='../../data/images/render/render9327.png')
 args = parser.parse_args()
 src = cv.imread(cv.samples.findFile(args.input))
 if src is None:
@@ -63,8 +64,8 @@ cv.namedWindow(source_window)
 cv.imshow(source_window, src)
 max_thresh = 255
 threshold = 200  # initial threshold
-image = np.asarray(src)
-print(image)
+# image = np.asarray(src)
+# print(image)
 cv.createTrackbar('Canny thresh:', source_window, threshold, max_thresh,
                   thresh_callback)
 thresh_callback(threshold)

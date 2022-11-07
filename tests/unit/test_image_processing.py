@@ -5,9 +5,9 @@ import unittest
 import random
 import numpy as np
 import sys
-sys.path.append('./src/ippsra')
+sys.path.append('../../src/ippsra')
 import image_processing_funcs  # nopep8
-# import bounding  # nopep8
+import bounding  # nopep8
 
 
 class TestAlgoDev(unittest.TestCase):
@@ -16,8 +16,9 @@ class TestAlgoDev(unittest.TestCase):
     def setUpClass(cls):
         cls.hazard_count = 1
         cls.hazard_count_false = 3
-        # cls.files = ['.png']  # WHAT IMAGE ?
-        cls.img = bounding.thresh_callback(files)  # NEED TO RETURN DRAWING!!
+        # cls.files = ['../../data/images/render/render9269.png']
+        # cls.img = bounding.thresh_callback(cls.files)
+        cls.img = bounding.thresh_callback(200)
         cls.hazard_size = 150  # NEED TO CHECK
         cls.hazard_size_false = 150  # NEED TO CHECK
         cls.hazard_density = 0.5  # NEED TO CHECK
