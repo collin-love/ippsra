@@ -5,7 +5,7 @@ import unittest
 import random
 import numpy as np
 import sys
-sys.path.append('../../src/ippsra')
+sys.path.append('./src/ippsra')
 import image_processing_funcs  # nopep8
 import bounding  # nopep8
 
