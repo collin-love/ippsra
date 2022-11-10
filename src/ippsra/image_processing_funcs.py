@@ -36,7 +36,7 @@ class ImageAnalysis():
         image = cv.blur(img, (3, 3))
         canny_output = cv.Canny(image, threshold, threshold * 2)
         contours, _ = cv.findContours(canny_output,
-                                    cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+                                      cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
         contours_poly = [None]*len(contours)
         boundRect = [None]*len(contours)
         centers = [None]*len(contours)
@@ -46,16 +46,21 @@ class ImageAnalysis():
             boundRect[i] = cv.boundingRect(contours_poly[i])
             centers[i], radius[i] = cv.minEnclosingCircle(contours_poly[i])
         drawing = np.zeros((canny_output.shape[0], canny_output.shape[1], 3),
-                        dtype=np.uint8)
+                           dtype=np.uint8)
 
         delta_x = []
         delta_y = []
         for i in range(len(contours)):
-            color = (rng.randint(0, 256), rng.randint(0, 256), rng.randint(0, 256))
+            color = (rng.randint(0, 256),
+                     rng.randint(0, 256),
+                     rng.randint(0, 256))
             cv.drawContours(drawing, contours_poly, i, color)
-            cv.rectangle(drawing, (int(boundRect[i][0]), int(boundRect[i][1])),
-                        (int(boundRect[i][0]+boundRect[i][2]),
-                        int(boundRect[i][1]+boundRect[i][3])), color, 2)
+            cv.rectangle(drawing,
+                         (int(boundRect[i][0]),
+                          int(boundRect[i][1])),
+                         (int(boundRect[i][0]+boundRect[i][2]),
+                          int(boundRect[i][1]+boundRect[i][3])),
+                         color, 2)
             delta_xi = int(boundRect[i][2])
             delta_x.append(delta_xi)
             delta_yi = int(boundRect[i][3])
@@ -168,4 +173,5 @@ class ImageAnalysis():
 # print(ImageAnalysis().size_hazards())
 # print(ImageAnalysis().density_hazards())
 # print(ImageAnalysis().hazard_score())
-print(ImageAnalysis().num_hazards(threshold=200, img='./data/images/render/render9327.png'))
+# print(ImageAnalysis().num_hazards(threshold=200,
+#                                   img='./data/images/render/render9327.png'))
