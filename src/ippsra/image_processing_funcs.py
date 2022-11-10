@@ -4,7 +4,7 @@ in an image thus allowing for the summation of how many found stones/boulders
 """
 import cv2 as cv
 import numpy as np
-import bounding
+import random as rng
 
 
 class ImageAnalysis():
@@ -22,7 +22,55 @@ class ImageAnalysis():
         self.thresh = 200
 
 # NEED TO UPDATE TO TAKE IN IMG
-    def num_hazards(self):
+    def bounding_box(self, threshold, img):
+        """Threshold function to process a contrasted image to create bounding
+        boxes for the image. This will "find" the obstructions in an image.
+
+        Args:
+            threshold (int): The threshold value that will control where the
+            bounding boxes will be placed on the image. This controls what is
+            considered as an obstruction
+        """
+        img = cv.imread(cv.samples.findFile(img))
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        image = cv.blur(img, (3, 3))
+        canny_output = cv.Canny(image, threshold, threshold * 2)
+        contours, _ = cv.findContours(canny_output,
+                                      cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+        contours_poly = [None]*len(contours)
+        boundRect = [None]*len(contours)
+        centers = [None]*len(contours)
+        radius = [None]*len(contours)
+        for i, c in enumerate(contours):
+            contours_poly[i] = cv.approxPolyDP(c, 3, True)
+            boundRect[i] = cv.boundingRect(contours_poly[i])
+            centers[i], radius[i] = cv.minEnclosingCircle(contours_poly[i])
+        drawing = np.zeros((canny_output.shape[0], canny_output.shape[1], 3),
+                           dtype=np.uint8)
+
+        delta_x = []
+        delta_y = []
+        for i in range(len(contours)):
+            color = (rng.randint(0, 256),
+                     rng.randint(0, 256),
+                     rng.randint(0, 256))
+            cv.drawContours(drawing, contours_poly, i, color)
+            cv.rectangle(drawing,
+                         (int(boundRect[i][0]),
+                          int(boundRect[i][1])),
+                         (int(boundRect[i][0]+boundRect[i][2]),
+                          int(boundRect[i][1]+boundRect[i][3])),
+                         color, 2)
+            delta_xi = int(boundRect[i][2])
+            delta_x.append(delta_xi)
+            delta_yi = int(boundRect[i][3])
+            delta_y.append(delta_yi)
+
+        hazard_count = len(contours)
+        # cv.imshow('Contours', drawing)
+        return delta_x, delta_y, hazard_count
+
+    def num_hazards(self, threshold, img):
         """This function takes in the .png image containing the bounding
         boxes from 'bounding.py'. It then iterates through a masked numpy
         array (array containing ones and zeros) to identify locations of
@@ -35,7 +83,7 @@ class ImageAnalysis():
         Returns:
             array: coordinates of bounding boxes.
         """
-        delta_x, delta_y, hazard_count = bounding.thresh_callback(self.thresh)
+        delta_x, delta_y, hazard_count = self.bounding_box(threshold, img)
         # IMG == DRAWING IN REINAS CODE
         # img = np.asarray(img)
         # rows = np.any(img, axis=1)
@@ -45,10 +93,10 @@ class ImageAnalysis():
         # cmin = np.argmax(cols)
         # cmax = img.shape[1] - 1 - np.argmax(np.flipud(cols))
 
-        return delta_x, delta_y, hazard_count
+        return hazard_count
 
 # NEED TO UPDATE TO TAKE IN IMG
-    def size_hazards(self):
+    def size_hazards(self, threshold, img):
         """Computes the absolute area that is covered by bounding boxes.
 
         Args:
@@ -57,7 +105,7 @@ class ImageAnalysis():
         Returns:
             int: total area encompassed by the bounding boxes in an image.
         """
-        delta_x, delta_y, hazard_count = self.num_hazards()
+        delta_x, delta_y, hazard_count = self.num_hazards(threshold, img)
         # area = (rmax - rmin) * (cmax - cmin)
         # area = np.absolute(area)
         area = []
@@ -121,7 +169,9 @@ class ImageAnalysis():
             return score
 
 
-print(ImageAnalysis().num_hazards())
-print(ImageAnalysis().size_hazards())
-print(ImageAnalysis().density_hazards())
-print(ImageAnalysis().hazard_score())
+# print(ImageAnalysis().num_hazards())
+# print(ImageAnalysis().size_hazards())
+# print(ImageAnalysis().density_hazards())
+# print(ImageAnalysis().hazard_score())
+# print(ImageAnalysis().num_hazards(threshold=200,
+#                                   img='./data/images/render/render9327.png'))
