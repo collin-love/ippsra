@@ -4,9 +4,6 @@ useable variable
 import sys
 import os
 import unittest
-import numpy as np
-import random as rndm
-import tempfile
 sys.path.append('./src/ippsra')
 import data_iterator as di  # nopep8
 
@@ -43,7 +40,6 @@ class TestImageDirIter(unittest.TestCase):
             di.data_iterator(self.wrong_path)
         with self.assertRaises(OSError):
             print(di.data_iterator(self.empty_path))
-
 
     # def test_correct_returns_data_iter(self):
         #
