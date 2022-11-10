@@ -2,9 +2,11 @@
 useable variable
 """
 import sys
+import os
 import unittest
 import numpy as np
 import random as rndm
+import tempfile
 sys.path.append('./src/ippsra')
 import data_iterator as di  # nopep8
 
@@ -19,8 +21,9 @@ class TestImageDirIter(unittest.TestCase):
         function
         """
         cls.test_data_path = './data/test_data/'
-        cls.wrong_path = './random/dir/DNE'  # A fake path
-        
+        cls.wrong_path = './random/dir/DNE'  # A fake path\
+        cls.empty_path = './data/empty_data/'
+        cls.empty_dir = os.mkdir(cls.empty_path)
 
     @classmethod
     def tearDownClass(cls):
@@ -29,6 +32,7 @@ class TestImageDirIter(unittest.TestCase):
         """
         cls.test_data_path = None
         cls.wrong_path = None
+        cls.empty_dir = os.rmdir('./data/empty_data/')
 
     def test_dif_dir_data_iter(self):
         """Testing for OSError for missing directory and testing an output is
@@ -37,6 +41,9 @@ class TestImageDirIter(unittest.TestCase):
         self.assertIsNotNone(di.data_iterator(self.test_data_path))
         with self.assertRaises(OSError):
             di.data_iterator(self.wrong_path)
+        with self.assertRaises(OSError):
+            print(di.data_iterator(self.empty_path))
 
-    def test_correct_returns_data_iter(self):
-        
+
+    # def test_correct_returns_data_iter(self):
+        #
