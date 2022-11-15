@@ -69,15 +69,12 @@ python src/ippsra/bounding.py
 ```
 - The output in the terminal will look like the following
 
-<details>
   <summary>Terminal Output</summary>
   <br>
 
 ```
 ```
 <center><img src="/docs/img/bounding_output.png" width="100%"/></center>
-
-</details>
 
 <!-- - These *params* can be varied by *X* -->
 
