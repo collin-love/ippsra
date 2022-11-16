@@ -15,21 +15,24 @@ class ImageAnalysis():
         of bounding boxes in an image.
         """
         # self.dangerous_threshold = 0.4
-        self.risky_threshold = 0.25
-        self.allowable_threshold = 0.1
-        self.hazard_area_threshold = 15000  # pixels
+        self.risky_threshold = 0.1
+        self.allowable_threshold = 0.05
+        self.hazard_area_threshold = 15000  # bboxes too large to be hazards
         self.test_img = './data/images/render/render9327.png'
-        self.thresh = 200
+        self.thresh = 200  # default threshold passed in
 
 # NEED TO UPDATE TO TAKE IN IMG
-    def bounding_box(self, threshold, img):
+    def bounding_box(self, img, threshold=200):
         """Threshold function to process a contrasted image to create bounding
         boxes for the image. This will "find" the obstructions in an image.
 
         Args:
-            threshold (int): The threshold value that will control where the
-            bounding boxes will be placed on the image. This controls what is
-            considered as an obstruction
+            threshold (int): This argument is optional and set to a default
+            if no parameter is applied. The threshold value that will control
+            where the bounding boxes will be placed on the image. This controls
+            what is considered as an obstruction.
+
+            img (png): image to be segmented with bounding boxes
         """
         img = cv.imread(cv.samples.findFile(img))
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -68,9 +71,9 @@ class ImageAnalysis():
 
         hazard_count = len(contours)
         # cv.imshow('Contours', drawing)
-        return delta_x, delta_y, hazard_count
+        return delta_x, delta_y, hazard_count, drawing
 
-    def num_hazards(self, threshold, img):
+    def num_hazards(self, img, threshold=200):
         """This function takes in the .png image containing the bounding
         boxes from 'bounding.py'. It then iterates through a masked numpy
         array (array containing ones and zeros) to identify locations of
@@ -78,36 +81,45 @@ class ImageAnalysis():
         boxes, of which we can analyze further to provide more intuition.
 
         Args:
-            img (array): image containing the bounding boxes from 'bounding.py'
+            img (png): undoctored image we want segmented
+
+            threshold (int): This argument is optional and set to a default
+            if no parameter is applied. The threshold value that will control
+            where the bounding boxes will be placed on the image. This controls
+            what is considered as an obstruction.
 
         Returns:
-            array: coordinates of bounding boxes.
+            int: number of bounding boxes.
         """
-        delta_x, delta_y, hazard_count = self.bounding_box(threshold, img)
-        # IMG == DRAWING IN REINAS CODE
-        # img = np.asarray(img)
-        # rows = np.any(img, axis=1)
-        # cols = np.any(img, axis=0)
-        # rmin = np.argmax(rows)
-        # rmax = img.shape[0] - 1 - np.argmax(np.flipud(rows))
-        # cmin = np.argmax(cols)
-        # cmax = img.shape[1] - 1 - np.argmax(np.flipud(cols))
+        delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
+                                                                    threshold)
 
         return hazard_count
 
 # NEED TO UPDATE TO TAKE IN IMG
-    def size_hazards(self, threshold, img):
-        """Computes the absolute area that is covered by bounding boxes.
+    def density_hazards(self, img, threshold=200):
+        """Function to determine a ratio between the area covered by the
+        hazards and the total area in the image.
 
         Args:
-            img (array): image containing the bounding boxes from 'bounding.py'
+            img (png): undoctored image we want segmented
+
+            threshold (int): This argument is optional and set to a default
+            if no parameter is applied. The threshold value that will control
+            where the bounding boxes will be placed on the image. This controls
+            what is considered as an obstruction.
 
         Returns:
-            int: total area encompassed by the bounding boxes in an image.
+            float: Density ratio of area of bounding boxes to area of image.
         """
-        delta_x, delta_y, hazard_count = self.num_hazards(threshold, img)
-        # area = (rmax - rmin) * (cmax - cmin)
-        # area = np.absolute(area)
+        delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
+                                                                    threshold)
+        undoctored_img = cv.imread(img)
+
+        # Extracting the height and width of an image
+        h, w = undoctored_img.shape[:2]
+        undoctored_area = np.absolute(h * w)
+
         area = []
         for i in range(len(delta_x)):
             area_i = delta_x[i]*delta_y[i]
@@ -116,32 +128,11 @@ class ImageAnalysis():
                 area[i] = 0
 
         haz_area_tot = sum(area)
-        return haz_area_tot
-        # return area
-
-# NEED TO UPDATE TO TAKE IN IMG
-    def density_hazards(self):
-        """Function to determine a ratio between the area covered by the
-        hazards and the total area in the image.
-
-        Args:
-            img (array): image containing the bounding boxes from 'bounding.py'
-
-        Returns:
-            int: Density ratio of area of bounding boxes to area of the image.
-        """
-        haz_area_tot = self.size_hazards()
-
-        undoctored_img = cv.imread(self.test_img)
-        # Extracting the height and width of an image
-        h, w = undoctored_img.shape[:2]
-        undoctored_area = np.absolute(h * w)
-        density = np.absolute(haz_area_tot / undoctored_area)
+        density = round(np.absolute(haz_area_tot / undoctored_area), 2)
 
         return density
 
-# NEED TO UPDATE TO TAKE IN IMG
-    def hazard_score(self):
+    def hazard_score(self, img, threshold=200):
         """The function for the ranking of images based on the detected hazards
         in the image. Currently, this is a ranking from the range of 1-3. This
         was chosen based on the simplicity of the ranking. By this it is
@@ -152,12 +143,17 @@ class ImageAnalysis():
         spacecraft size) We will work on exactly how this is determined
 
         Args:
-            img (array): image containing the bounding boxes from 'bounding.py'
+            img (png): undoctored image we want segmented
+
+            threshold (int): This argument is optional and set to a default
+            if no parameter is applied. The threshold value that will control
+            where the bounding boxes will be placed on the image. This controls
+            what is considered as an obstruction.
 
         Returns:
             int: The ranking of how the image ranks on the ranking scale (1-3)
         """
-        density = self.density_hazards()
+        density = self.density_hazards(img, threshold)
         if density <= self.allowable_threshold:
             score = 1  # Great score (1-3 scale ATM)
             return score
@@ -168,10 +164,27 @@ class ImageAnalysis():
             score = 3  # Bad score
             return score
 
+    def show_img(self, img):
+        img = cv.imread(img)
+        img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        cv.imshow('Original Gray', img_gray)
+        cv.waitKey()
+        return None
 
-# print(ImageAnalysis().num_hazards())
-# print(ImageAnalysis().size_hazards())
-# print(ImageAnalysis().density_hazards())
-# print(ImageAnalysis().hazard_score())
-# print(ImageAnalysis().num_hazards(threshold=200,
-#                                   img='./data/images/render/render9327.png'))
+    def show_bbox(self, img, threshold=200):
+        delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
+                                                                    threshold)
+        img = cv.imread(img)
+        sidebyside = np.concatenate((img, drawing), axis=1)
+        cv.imshow('Original and Segmented', sidebyside)
+        cv.waitKey()
+        return None
+
+
+print('The number of hazards is',
+      ImageAnalysis().num_hazards(ImageAnalysis.test_img))
+print('The hazard score (1-3, 1 best) for this image is',
+      ImageAnalysis().hazard_score(ImageAnalysis.test_img))
+print('In a new window you will see the original image vs segmented image')
+print('Press any key to close the image window')
+ImageAnalysis().show_bbox(ImageAnalysis.test_img)
