@@ -14,14 +14,12 @@ class ImageAnalysis():
         """Sets the threshold values for the various rankings of the density
         of bounding boxes in an image.
         """
-        # self.dangerous_threshold = 0.4
         self.risky_threshold = 0.1
         self.allowable_threshold = 0.05
         self.hazard_area_threshold = 15000  # bboxes too large to be hazards
         self.test_img = './data/images/render/render9327.png'
         self.thresh = 200  # default threshold passed in
 
-# NEED TO UPDATE TO TAKE IN IMG
     def bounding_box(self, img, threshold=200):
         """Threshold function to process a contrasted image to create bounding
         boxes for the image. This will "find" the obstructions in an image.
@@ -96,7 +94,6 @@ class ImageAnalysis():
 
         return hazard_count
 
-# NEED TO UPDATE TO TAKE IN IMG
     def density_hazards(self, img, threshold=200):
         """Function to determine a ratio between the area covered by the
         hazards and the total area in the image.
@@ -181,10 +178,12 @@ class ImageAnalysis():
         return None
 
 
-print('The number of hazards is',
-      ImageAnalysis().num_hazards(ImageAnalysis.test_img))
-print('The hazard score (1-3, 1 best) for this image is',
-      ImageAnalysis().hazard_score(ImageAnalysis.test_img))
-print('In a new window you will see the original image vs segmented image')
-print('Press any key to close the image window')
-ImageAnalysis().show_bbox(ImageAnalysis.test_img)
+# print('The number of hazards is',
+#       ImageAnalysis().num_hazards(ImageAnalysis.test_img))
+# print('The density of hazards is',
+#       ImageAnalysis().density_hazards(ImageAnalysis.test_img))
+# print('The hazard score (1-3, 1 best) for this image is',
+#       ImageAnalysis().hazard_score(ImageAnalysis.test_img))
+# print('In a new window you will see the original image vs segmented image')
+# print('Press any key to close the image window')
+# ImageAnalysis().show_bbox(ImageAnalysis.test_img)
