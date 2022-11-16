@@ -74,7 +74,7 @@ python src/ippsra/bounding.py
 
 ```
 ```
-<center><img src="/docs/img/bounding_output.png" width="100%"/></center>
+<center><img src="/docs/img/img_seg_output.png" width="100%"/></center>
 
 <!-- - These *params* can be varied by *X* -->
 
