@@ -51,7 +51,7 @@ jobs:
         run: pycodestyle $(git ls-files "*.py")
       - name: Running unit tests
         run: |
-          python -m unittest tests/unit/test_utils.py
+          python -m unittest tests/unit/test_image_processing.py
 
   windows_unittest_pycodestyle:
     runs-on: windows-latest
@@ -65,4 +65,4 @@ jobs:
         run: pycodestyle $(git ls-files "*.py")
       - name: Running unit tests
         run: |
-          python -m unittest tests/unit/test_utils.py
+          python -m unittest tests/unit/test_image_processing.py
