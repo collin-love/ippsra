@@ -52,3 +52,17 @@ jobs:
       - name: Running unit tests
         run: |
           python -m unittest tests/unit/test_utils.py
+
+  windows_unittest_pycodestyle:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ippsra
+          environment-file: environment.yml
+      - name: Run pycodestyle test
+        run: pycodestyle $(git ls-files "*.py")
+      - name: Running unit tests
+        run: |
+          python -m unittest tests/unit/test_utils.py
