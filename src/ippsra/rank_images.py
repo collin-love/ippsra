@@ -7,7 +7,8 @@ import cv2
 import glob
 import argparse
 sys.path.append('./src/ippsra')
-import image_processing_funcs as ipf  # nopep8
+from image_processing_funcs import ImageAnalysis  # nopep8
+
 
 
 def get_args():
@@ -20,7 +21,7 @@ def get_args():
     parser.add_argument('--Directory', '-D', default='./data/test_data',
                         help='The PATH to the directory containing the images '
                         + 'that are going to be processed')
-    parser.add_argument('--Extension', '-ext', default=['png', 'jpg'],
+    parser.add_argument('--Extension', '-ext', default='png',
                         help='A list of the extensions for the image data '
                         + 'that is present in the directory for processing',
                         choices=['bmp', 'dib', 'jpeg', 'jpg', 'png', 'webp', 
@@ -30,29 +31,44 @@ def get_args():
     return parser.parse_args()
 
 def rank_images():
-    
+    """
+    """
     args = get_args()
 
     imageDir = args.Directory
     ext = args.Extension
 
+    # Check to see if the directory exists and if there are images in it
     if os.path.exists(imageDir) is False:
-        raise OSError("This directory is empty")
+        raise OSError("This directory does not exist")
     # Checking if the dir is empty or not
     dir = os.listdir(imageDir)  # listing the contents
     if len(dir) == 0:
         raise OSError("This directory is empty")
 
-    Ims = []  # Setting up a list to add image data to
-    [Ims.extend(glob.glob(imageDir + '*.' + e)) for e in ext]
+    # iterate through the directory and rank the images
+    
+    for ext in os.listdir(imageDir):
+        imagePath = os.path.join(imageDir, ext)
 
-    images = [cv2.imread(file) for file in Ims]
+        ImageAnalysis().bounding_box(img=imagePath, threshold=200)
+        print(ImageAnalysis().num_hazards(img=imagePath, threshold=200))
+        print(ImageAnalysis().density_hazards(img=imagePath, threshold=200))
+        print(ImageAnalysis().hazard_score(img=imagePath, threshold=200))
 
-    print(images)
-    print(imageDir, ext)
 
-# imageDir = './data/test_data/'  # Dir for the test dataset
-# ext = ['png', 'jpg']  # Different image formats
+
+    # ImageAnalysis().show_img(img=imagePath)
+    # ImageAnalysis().show_bbox(img=imagePath)
+
+        
+        
+        
+    # Ims = []  # Setting up a list to add image data to
+    # [Ims.extend(glob.glob(corpus_dir + '*.' + e)) for e in ext]
+
+    # images = [cv2.imread(file) for file in Ims]
+
 '''
 def argparser(imageDir, ext=['png', 'jpg']):
     """Function to iterate through a directory of image data
