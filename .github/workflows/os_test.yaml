@@ -34,7 +34,7 @@ jobs:
           environment-file: environment.yml
       - name: Running unit tests
         run: |
-          python -m unittest tests/unit/test_utils.py
+          python -m unittest tests/unit/test_image_processing.py
 
   macos_unittest_pycodestyle:
     runs-on: macos-12
