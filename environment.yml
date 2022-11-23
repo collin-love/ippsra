@@ -11,3 +11,4 @@ dependencies:
     - pycodestyle
     - matplotlib
     - numpy
+    - pandas
