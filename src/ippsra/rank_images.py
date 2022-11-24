@@ -1,16 +1,23 @@
 """Script to iterate through a directory of data and input the images into
-a useable array
+a useable DataFrame
 """
 import os
 import sys
+import pandas as pd
 import cv2
-import glob
 import argparse
 sys.path.append('./src/ippsra')
 from image_processing_funcs import ImageAnalysis  # nopep8
+import plot_utils as pu  # nopep8
 
 
 def get_args():
+    """A function that parses all the inputs from the user to be used in this
+    script
+
+    Returns:
+        Argument Parser: The function to get the arguments from the user input
+    """
 
     parser = argparse.ArgumentParser(description='Code for ranking a '
                                      + 'directory of images on a custom scale '
@@ -26,38 +33,122 @@ def get_args():
                         choices=['bmp', 'dib', 'jpeg', 'jpg', 'png', 'webp',
                                  'pbm', 'pgm', 'ppm', 'pxm', 'pnm', 'sr',
                                  'ras', 'tiff', 'tif', 'exr', 'hdr', 'pic'])
+    parser.add_argument('--csvPath', default='./data/processed_data',
+                        help='The PATH to the directory where the CSV file '
+                        + 'will be saved')
+    parser.add_argument('--csvName', default='sorted_test.csv',
+                        help='Then name of the CSV file that will be created')
+    parser.add_argument('--save', default='False',
+                        help='Boolean for if you want to save the files',
+                        choices=['True', 'False'])
 
     return parser.parse_args()
 
 
-def rank_images():
-    """
+def rank_images():    # sourcery skip: for-index-underscore, move-assign
+    """The main script in this repository that will iterate through a directory
+    and output ranked data to a CSV file in the name of the user's choice and
+    location.
+
+    Raises:
+        OSError: The specified directory does not exist
+        OSError: The specified directory does not contain any images
+
+    Outputs:
+        Images: Images with or without bounding boxes that
+               identify the hazards in the image displayed to a window.
+        Compilation: A compilation of images with their corresponding ranking
+                    will be displayed in a window.
+        Ranking Chart: A graphic (that can be toggled on or off) will display
+                      the ranking clarification.
     """
     args = get_args()
 
-    imageDir = args.Directory
+    # Renaming the class function for ease of use
+    IA = ImageAnalysis()
+
     ext = args.Extension
+    imageDir = args.Directory
+    csvPath = args.csvPath
+    csvName = args.csvName
+    save = args.save
+    file_exists = os.path.exists(csvPath + '/' + csvName)
+    if save == 'True' and file_exists is True:
+        raise OSError(f'(OSError): The file {csvName} already exists in '
+                      + f'the directory {csvPath}. Please move or delete '
+                      + 'the file and try again')
 
-    # Check to see if the directory exists and if there are images in it
-    if os.path.exists(imageDir) is False:
-        raise OSError("This directory does not exist")
-    # Checking if the dir is empty or not
-    dir = os.listdir(imageDir)  # listing the contents
-    if len(dir) == 0:
-        raise OSError("This directory is empty")
+    try:
+        # Check to see if the data directory exists and is populated
+        if os.path.exists(imageDir) is False:
+            raise OSError(f'(OSError): The directory {imageDir} does not '
+                          + 'exist')
+        # Checking if the data dir is empty or not by listing the contents
+        if len(os.listdir(imageDir)) == 0:
+            raise OSError(f'(OSError): The directory {imageDir} is empty')
+        # check if the csv directory exists
+        if os.path.exists(csvPath) is False:
+            raise OSError(f'(OSError): The directory {csvPath} does not '
+                          + 'exist')
+    finally:
+        # Creating an empty list to store the data
+        Is = [[] for col in range(len(os.listdir(imageDir)))]
 
-    # iterate through the directory and rank the images
+        # iterate through the directory and rank the images
+        i = 0
+        with os.scandir(imageDir) as image_dir:
+            for entry in image_dir:
+                if entry.name.endswith(ext) and entry.is_file():
+                    # Create the full OS path to the image
+                    imagePath = os.path.join(imageDir, entry.name)
+                    # Extend function to add the data to the empty list
+                    Is[i].append(entry.name)
+                    Is[i].append(IA.num_hazards(img=imagePath,
+                                                threshold=200))
+                    Is[i].append(IA.density_hazards(img=imagePath,
+                                                    threshold=200))
+                    Is[i].append(IA.hazard_score(img=imagePath,
+                                                 threshold=200))
+                if i % 20 == 0:
+                    print(f'{i} images have been ranked')
+                i = i + 1
 
-    for ext in os.listdir(imageDir):
-        imagePath = os.path.join(imageDir, ext)
+        # Creating a header for the output file
+        header = ['Image Name', 'Number of Hazards',
+                  'Density of Hazards', 'Hazard Score']
 
-        ImageAnalysis().bounding_box(img=imagePath, threshold=200)
-        print(ImageAnalysis().num_hazards(img=imagePath, threshold=200))
-        print(ImageAnalysis().density_hazards(img=imagePath, threshold=200))
-        print(ImageAnalysis().hazard_score(img=imagePath, threshold=200))
+        # Create a data frame from the nested lists
+        image_info = pd.DataFrame(Is, columns=header, index=None)
+        sorted_image_info = image_info.sort_values(
+            by='Density of Hazards', ascending=True)
+        # Second sort to sor the data by the number of hazards
+        number_of_hazards_sort = sorted_image_info.sort_values(
+            by='Number of Hazards', ascending=True)
+        print(number_of_hazards_sort)
 
-    # ImageAnalysis().show_img(img=imagePath)
-    # ImageAnalysis().show_bbox(img=imagePath)
+        # Save the data frame to a csv file if the user specifies
+        if save is True:
+            # Save the raw data to a CSV file
+            image_info.to_csv(os.path.join(csvPath, 'raw_data.csv'),
+                              index=False)
+
+            # Save a sorted version of the data to a CSV file with
+            # the user's name
+            sorted_image_info.to_csv(os.path.join(csvPath, csvName),
+                                     index=False)
+
+    # Plotting the data
+    pu.scatter_plot(sorted_image_info)
+    pu.violinplot(sorted_image_info)
+
+    # Full path to the image that will be displayed
+    best_image = os.path.join(imageDir,
+                              number_of_hazards_sort['Image Name'][1])
+    worst_image = os.path.join(imageDir,
+                               sorted_image_info['Image Name'].iloc[-1])
+
+    pu.concat_image(best_image)
+    pu.concat_image(worst_image)
 
 
 if __name__ == '__main__':

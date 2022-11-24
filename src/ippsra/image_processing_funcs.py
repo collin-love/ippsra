@@ -6,21 +6,24 @@ import cv2 as cv
 import numpy as np
 import random as rng
 
+# defined thresh here to change values
+thresh = 200
+
 
 class ImageAnalysis():
 
     @classmethod
-    def __init__(self):
+    def __init__(cls):
         """Sets the threshold values for the various rankings of the density
         of bounding boxes in an image.
         """
-        self.risky_threshold = 0.1
-        self.allowable_threshold = 0.05
-        self.hazard_area_threshold = 15000  # bboxes too large to be hazards
-        self.test_img = './data/images/render/render9327.png'
-        self.thresh = 200  # default threshold passed in
+        cls.risky_threshold = 0.1
+        cls.allowable_threshold = 0.05
+        cls.hazard_area_threshold = 15000  # bboxes too large to be hazards
+        cls.test_img = './data/images/render/render9327.png'
+        cls.thresh = 200  # default threshold passed in
 
-    def bounding_box(self, img, threshold=200):
+    def bounding_box(self, img, threshold=thresh):
         """Threshold function to process a contrasted image to create bounding
         boxes for the image. This will "find" the obstructions in an image.
 
@@ -71,7 +74,7 @@ class ImageAnalysis():
         # cv.imshow('Contours', drawing)
         return delta_x, delta_y, hazard_count, drawing
 
-    def num_hazards(self, img, threshold=200):
+    def num_hazards(self, img, threshold=thresh):
         """This function takes in the .png image containing the bounding
         boxes from 'bounding.py'. It then iterates through a masked numpy
         array (array containing ones and zeros) to identify locations of
@@ -94,7 +97,7 @@ class ImageAnalysis():
 
         return hazard_count
 
-    def density_hazards(self, img, threshold=200):
+    def density_hazards(self, img, threshold=thresh):
         """Function to determine a ratio between the area covered by the
         hazards and the total area in the image.
 
@@ -129,7 +132,7 @@ class ImageAnalysis():
 
         return density
 
-    def hazard_score(self, img, threshold=200):
+    def hazard_score(self, img, threshold=thresh):
         """The function for the ranking of images based on the detected hazards
         in the image. Currently, this is a ranking from the range of 1-3. This
         was chosen based on the simplicity of the ranking. By this it is
@@ -161,21 +164,21 @@ class ImageAnalysis():
             score = 3  # Bad score
             return score
 
-    def show_img(self, img):
-        img = cv.imread(img)
-        img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        cv.imshow('Original Gray', img_gray)
-        cv.waitKey()
-        return None
+    # def show_img(self, img):
+    #     img = cv.imread(img)
+    #     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    #     cv.imshow('Original Gray', img_gray)
+    #     cv.waitKey()
+    #     return None
 
-    def show_bbox(self, img, threshold=200):
-        delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
-                                                                    threshold)
-        img = cv.imread(img)
-        sidebyside = np.concatenate((img, drawing), axis=1)
-        cv.imshow('Original and Segmented', sidebyside)
-        cv.waitKey()
-        return None
+    # def show_bbox(self, img, threshold=200):
+    #     delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
+    #                                                                 threshold)
+    #     img = cv.imread(img)
+    #     sidebyside = np.concatenate((img, drawing), axis=1)
+    #     cv.imshow('Original and Segmented', sidebyside)
+    #     cv.waitKey()
+    #     return None
 
 
 # print('The number of hazards is',
