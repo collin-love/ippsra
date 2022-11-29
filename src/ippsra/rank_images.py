@@ -23,7 +23,9 @@ def get_args():
                                      + 'directory of images on a custom scale '
                                      + 'that is defined at this following '
                                      + 'link https://github.com/collin-love/'
-                                     + 'ippsra/blob/main/README.md')
+                                     + 'ippsra/blob/main/README.md',
+                                     formatter_class=argparse.
+                                     ArgumentDefaultsHelpFormatter)
     parser.add_argument('--Directory', '-D', default='./data/test_data',
                         help='The PATH to the directory containing the images '
                         + 'that are going to be processed')
@@ -41,11 +43,22 @@ def get_args():
     parser.add_argument('--save', default='False',
                         help='Boolean for if you want to save the files',
                         choices=['True', 'False'])
+    parser.add_argument('--imgIdx', default='1',
+                        help='The index of the image that you want to show at '
+                        + 'the end of the script from a sorted list of images '
+                        + 'from best to worst. The default is 1 (the best '
+                        + 'ranked image)')
+    parser.add_argument('--showImages', default='True',
+                        help='Boolean for if you want to show',
+                        choices=['True', 'False'])
+    parser.add_argument('--plot', default='True',
+                        help='Boolean for if you want to plot the data',
+                        choices=['True', 'False'])
 
     return parser.parse_args()
 
 
-def rank_images():    # sourcery skip: for-index-underscore, move-assign
+def rank_images():
     """The main script in this repository that will iterate through a directory
     and output ranked data to a CSV file in the name of the user's choice and
     location.
@@ -72,6 +85,9 @@ def rank_images():    # sourcery skip: for-index-underscore, move-assign
     csvPath = args.csvPath
     csvName = args.csvName
     save = args.save
+    plot = args.plot
+    showImages = args.showImages
+    imgIdx = int(args.imgIdx)
     file_exists = os.path.exists(csvPath + '/' + csvName)
     if save == 'True' and file_exists is True:
         raise OSError(f'(OSError): The file {csvName} already exists in '
@@ -92,11 +108,12 @@ def rank_images():    # sourcery skip: for-index-underscore, move-assign
                           + 'exist')
     finally:
         # Creating an empty list to store the data
-        Is = [[] for col in range(len(os.listdir(imageDir)))]
+        Is = [[] for _ in range(len(os.listdir(imageDir)))]
 
         # iterate through the directory and rank the images
         i = 0
         with os.scandir(imageDir) as image_dir:
+            print(f'There are {len(os.listdir(imageDir))} images in this dir')
             for entry in image_dir:
                 if entry.name.endswith(ext) and entry.is_file():
                     # Create the full OS path to the image
@@ -124,10 +141,30 @@ def rank_images():    # sourcery skip: for-index-underscore, move-assign
         # Second sort to sor the data by the number of hazards
         number_of_hazards_sort = sorted_image_info.sort_values(
             by='Number of Hazards', ascending=True)
-        print(number_of_hazards_sort)
+
+        # pull out all images that have a hazard score of 1
+        for rank in sorted_image_info['Hazard Score']:
+            if rank == 1:
+                one_hazard = sorted_image_info.loc[
+                    sorted_image_info['Hazard Score'] == 1]
+                one_hazard = one_hazard.reset_index(drop=True)
+
+        # pull out all images that have a hazard score of 2
+        for rank in sorted_image_info['Hazard Score']:
+            if rank == 2:
+                two_hazard = sorted_image_info.loc[
+                    sorted_image_info['Hazard Score'] == 2]
+                two_hazard = two_hazard.reset_index(drop=True)
+
+        # pull out all images that have a hazard score of 3
+        for rank in sorted_image_info['Hazard Score']:
+            if rank == 3:
+                three_hazard = sorted_image_info.loc[
+                    sorted_image_info['Hazard Score'] == 3]
+                three_hazard = three_hazard.reset_index(drop=True)
 
         # Save the data frame to a csv file if the user specifies
-        if save is True:
+        if save == 'True':
             # Save the raw data to a CSV file
             image_info.to_csv(os.path.join(csvPath, 'raw_data.csv'),
                               index=False)
@@ -136,19 +173,26 @@ def rank_images():    # sourcery skip: for-index-underscore, move-assign
             # the user's name
             sorted_image_info.to_csv(os.path.join(csvPath, csvName),
                                      index=False)
+        if plot == 'True':
+            # Plotting the data
+            pu.scatter_plot(sorted_image_info)
+            pu.violinplot(sorted_image_info)
 
-    # Plotting the data
-    pu.scatter_plot(sorted_image_info)
-    pu.violinplot(sorted_image_info)
-
-    # Full path to the image that will be displayed
-    best_image = os.path.join(imageDir,
-                              number_of_hazards_sort['Image Name'][1])
-    worst_image = os.path.join(imageDir,
-                               sorted_image_info['Image Name'].iloc[-1])
-
-    pu.concat_image(best_image)
-    pu.concat_image(worst_image)
+        if showImages == 'True':
+            # Full path to the image that will be displayed
+            best_img = os.path.join(imageDir,
+                                    number_of_hazards_sort['Image Name'][1])
+            worst_img = os.path.join(imageDir,
+                                     sorted_image_info['Image Name'].iloc[-1])
+            # Show the best and worst images with bounding boxes
+            pu.concat_image(best_img)
+            pu.concat_image(worst_img)
+            # Display the user's choice of image
+            usr_image = os.path.join(imageDir,
+                                     sorted_image_info['Image Name'][imgIdx])
+            pu.show_img(usr_image)
+            # Create a compilation of the ranked images
+            pu.compilation_rank(imageDir, one_hazard, two_hazard, three_hazard)
 
 
 if __name__ == '__main__':
