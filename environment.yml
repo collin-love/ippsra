@@ -11,3 +11,6 @@ dependencies:
     - pycodestyle
     - matplotlib
     - numpy
+    - pandas
+    - seaborn
+    - imutils

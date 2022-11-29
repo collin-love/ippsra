@@ -162,3 +162,5 @@ CATKIN_IGNORE
 # Custom for ippsra
 ssshtest
 *.tape
+*.csv
+*.ipynb
