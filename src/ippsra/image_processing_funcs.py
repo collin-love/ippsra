@@ -163,30 +163,3 @@ class ImageAnalysis():
         else:
             score = 3  # Bad score
             return score
-
-    # def show_img(self, img):
-    #     img = cv.imread(img)
-    #     img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    #     cv.imshow('Original Gray', img_gray)
-    #     cv.waitKey()
-    #     return None
-
-    # def show_bbox(self, img, threshold=200):
-    #     delta_x, delta_y, hazard_count, drawing = self.bounding_box(img,
-    #                                                                 threshold)
-    #     img = cv.imread(img)
-    #     sidebyside = np.concatenate((img, drawing), axis=1)
-    #     cv.imshow('Original and Segmented', sidebyside)
-    #     cv.waitKey()
-    #     return None
-
-
-# print('The number of hazards is',
-#       ImageAnalysis().num_hazards(ImageAnalysis.test_img))
-# print('The density of hazards is',
-#       ImageAnalysis().density_hazards(ImageAnalysis.test_img))
-# print('The hazard score (1-3, 1 best) for this image is',
-#       ImageAnalysis().hazard_score(ImageAnalysis.test_img))
-# print('In a new window you will see the original image vs segmented image')
-# print('Press any key to close the image window')
-# ImageAnalysis().show_bbox(ImageAnalysis.test_img)
