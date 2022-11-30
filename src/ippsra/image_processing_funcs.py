@@ -163,3 +163,25 @@ class ImageAnalysis():
         else:
             score = 3  # Bad score
             return score
+
+    def single_hazards_list(self, filt_hazard_score, sorted_image_info):
+        """_summary_
+
+        Args:
+            filt_hazard_score (int): An integer from 1--3 that represents the
+            hazard score of the image to filter the sorted image info by.
+            sorted_image_info (list): A sorted list of all the images that have
+            been ranked by hazard score function, but don't have to be sorted.
+
+        Returns:
+            filt_hazard_list (list): a list of the filtered images based on
+            hazard score
+        """
+        image_data = sorted_image_info['Hazard Score']
+        hazard_score = sorted_image_info['Hazard Score']
+        for rank in image_data:
+            if rank == filt_hazard_score:
+                filt_hazard_list = sorted_image_info.loc[
+                    image_data == 1]
+                filt_hazard_list = filt_hazard_list.reset_index(drop=True)
+                return filt_hazard_list

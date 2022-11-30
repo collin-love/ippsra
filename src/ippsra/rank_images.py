@@ -79,7 +79,7 @@ def rank_images():
 
     # Renaming the class function for ease of use
     IA = ImageAnalysis()
-
+    # Adding all the arguments to variables for use in the script
     ext = args.Extension
     imageDir = args.Directory
     csvPath = args.csvPath
@@ -89,6 +89,8 @@ def rank_images():
     showImages = args.showImages
     imgIdx = int(args.imgIdx)
     file_exists = os.path.exists(csvPath + '/' + csvName)
+
+    # Check to see if a file already exists. Added here to fail fast
     if save == 'True' and file_exists is True:
         raise OSError(f'(OSError): The file {csvName} already exists in '
                       + f'the directory {csvPath}. Please move or delete '
@@ -102,15 +104,14 @@ def rank_images():
         # Checking if the data dir is empty or not by listing the contents
         if len(os.listdir(imageDir)) == 0:
             raise OSError(f'(OSError): The directory {imageDir} is empty')
-        # check if the csv directory exists
+        # Check if the csv directory exists
         if os.path.exists(csvPath) is False:
             raise OSError(f'(OSError): The directory {csvPath} does not '
                           + 'exist')
     finally:
         # Creating an empty list to store the data
         Is = [[] for _ in range(len(os.listdir(imageDir)))]
-
-        # iterate through the directory and rank the images
+        # Iterate through the directory and rank the images
         i = 0
         with os.scandir(imageDir) as image_dir:
             print(f'There are {len(os.listdir(imageDir))} images in this dir')
@@ -142,26 +143,18 @@ def rank_images():
         number_of_hazards_sort = sorted_image_info.sort_values(
             by='Number of Hazards', ascending=True)
 
-        # pull out all images that have a hazard score of 1
-        for rank in sorted_image_info['Hazard Score']:
-            if rank == 1:
-                one_hazard = sorted_image_info.loc[
-                    sorted_image_info['Hazard Score'] == 1]
-                one_hazard = one_hazard.reset_index(drop=True)
-
-        # pull out all images that have a hazard score of 2
-        for rank in sorted_image_info['Hazard Score']:
-            if rank == 2:
-                two_hazard = sorted_image_info.loc[
-                    sorted_image_info['Hazard Score'] == 2]
-                two_hazard = two_hazard.reset_index(drop=True)
-
-        # pull out all images that have a hazard score of 3
-        for rank in sorted_image_info['Hazard Score']:
-            if rank == 3:
-                three_hazard = sorted_image_info.loc[
-                    sorted_image_info['Hazard Score'] == 3]
-                three_hazard = three_hazard.reset_index(drop=True)
+        # Pull ou all images that have a hazard score of 1
+        filt_hazard_score = 1
+        one_hazard = IA.single_hazards_list(filt_hazard_score,
+                                            sorted_image_info)
+        # Pull out all images that have a hazard score of 2
+        filt_hazard_score = 2
+        two_hazard = IA.single_hazards_list(filt_hazard_score,
+                                            sorted_image_info)
+        # Pull out all images that have a hazard score of 3
+        filt_hazard_score = 3
+        three_hazard = IA.single_hazards_list(filt_hazard_score,
+                                              sorted_image_info)
 
         # Save the data frame to a csv file if the user specifies
         if save == 'True':
