@@ -79,6 +79,7 @@ def show_img(img, save, fileName):
     if save == 'True':
         cv.imwrite(fileName, img)
 
+
 def show_obstruct(img, save, fileName):
     """A function to show the image with the bounding boxes of the obstructions
 
@@ -94,6 +95,7 @@ def show_obstruct(img, save, fileName):
     cv.waitKey()
     if save == 'True':
         cv.imwrite(fileName, img)
+
 
 def concat_image(img, save, fileName):
     """A function to concatenate an original image with an image that contains
@@ -113,14 +115,20 @@ def concat_image(img, save, fileName):
     if save == 'True':
         cv.imwrite(fileName, img)
 
-def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard, save, fileName):
-    """_summary_
+
+def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
+                     save, fileName):
+    """A function to create a montage of the images ranked by hazard score
 
     Args:
-        imageDir (_type_): _description_
-        one_hazard (_type_): _description_
-        two_hazard (_type_): _description_
-        three_hazard (_type_): _description_
+        imageDir (str): The directory of the images
+        one_hazard (list): A list of the images with one hazard
+        two_hazard (list): A list of the images with two hazards
+        three_hazard (list): A list of the images with three hazards
+        save (str): 'True' or 'False' to save the image from rank_images
+        argparese
+        fileName (str): the str value of the file name to save the image
+        from rank_images argparese
     """
     # Defining used lists
     one_hazard_images = []
@@ -199,6 +207,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard, save, fileN
     cv.waitKey(0)
     if save == 'True':
         cv.imwrite(fileName, montage)
+
 
 if __name__ == '__main__':
     print("This doesn't work like that. Please use plot_utils.py as a module "

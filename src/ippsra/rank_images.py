@@ -195,7 +195,10 @@ def rank_images():
             pu.show_img(usr_image, save, fileName=os.path.join(fileName +
                                                                'user.png'))
             # Create a compilation of the ranked images
-            pu.compilation_rank(imageDir, one_hazard, two_hazard, three_hazard, save, fileName=os.path.join(fileName + 'compilation.png'))
+            pu.compilation_rank(imageDir, one_hazard, two_hazard,
+                                three_hazard, save,
+                                fileName=os.path.join(
+                                    fileName + 'compilation.png'))
 
 
 if __name__ == '__main__':
