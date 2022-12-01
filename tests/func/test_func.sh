@@ -20,6 +20,7 @@ assert_in_stderr "OSError: (OSError): The file sorted_test.csv already exists in
 
 rm ./data/processed_data/sorted_test.csv
 rm ./data/processed_data/raw_data.csv
+rm ./data/processed_data/*.png
 
 run test_in_stderr python3 src/ippsra/rank_images.py --save False --plot False --showImages False --Directory ./data/FAKE_Directory
 assert_in_stderr "No such file or directory: './data/FAKE_Directory'"
@@ -32,3 +33,4 @@ assert_in_stderr "The directory ./data/EMPTY_Directory is empty"
 rm ./data/processed_data/sorted_test.csv
 rm ./data/processed_data/raw_data.csv
 rm -r ./data/EMPTY_Directory
+rm ./data/processed_data/*.png

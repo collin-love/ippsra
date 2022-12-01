@@ -28,7 +28,7 @@ xlabel_scat = 'Number of Hazards'
 sns.set(style="darkgrid")
 
 
-def scatter_plot(data):
+def scatter_plot(data, save, fileName):
     """A scatter plot to show the relationship between the number of hazards
 
     Args:
@@ -44,14 +44,14 @@ def scatter_plot(data):
                          alpha=0.3)
     fig, plt.ylabel(ylabel_scat)
     fig, plt.xlabel(xlabel_scat)
-    # fig, plt.legend()
     legend1 = ax.legend(*scatter.legend_elements(), title="Ranking")
-
     ax.add_artist(legend1)
+    if save == 'True':
+        fig, plt.savefig(fileName)
     plt.show()
 
 
-def violinplot(data):
+def violinplot(data, save, fileName):
     """A violin plot to show the distribution of the hazard score
 
     Args:
@@ -62,10 +62,12 @@ def violinplot(data):
 
     fig1 = plt.figure(dpi=150)
     fig1, sns.violinplot(x=Hazard_score, y=Density)
+    if save == 'True':
+        fig1, plt.savefig(fileName)
     plt.show()
 
 
-def show_img(img):
+def show_img(img, save, fileName):
     """This function shows an image in the window
 
     Args:
@@ -74,9 +76,10 @@ def show_img(img):
     img = cv.imread(img)
     cv.imshow('Original Image', img)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
-
-def show_obstruct(img):
+def show_obstruct(img, save, fileName):
     """A function to show the image with the bounding boxes of the obstructions
 
     Args:
@@ -89,9 +92,10 @@ def show_obstruct(img):
     img = cv.imread(img)
     cv.imshow('Image with bounded obstructions', drawing)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
-
-def concat_image(img):
+def concat_image(img, save, fileName):
     """A function to concatenate an original image with an image that contains
     the bounding boxes of the obstructions
 
@@ -106,9 +110,10 @@ def concat_image(img):
     sidebyside = np.concatenate((img, drawing), axis=1)
     cv.imshow('Original | Bounding Boxes Drawn', sidebyside)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
-
-def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
+def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard, save, fileName):
     """_summary_
 
     Args:
@@ -189,10 +194,11 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
                        scored_images[(len(one_hazard) + len(two_hazard) + 2)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 3)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 4)]]
-    cv.imshow("Ranked Compilation",
-              build_montages(selected_images, (200, 200), (3, 3))[0])
+    montage = build_montages(selected_images, (200, 200), (3, 3))[0]
+    cv.imshow("Ranked Compilation", montage)
     cv.waitKey(0)
-
+    if save == 'True':
+        cv.imwrite(fileName, montage)
 
 if __name__ == '__main__':
     print("This doesn't work like that. Please use plot_utils.py as a module "
