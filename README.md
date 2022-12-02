@@ -99,7 +99,7 @@ There are 43 images in this dir
 40 images have been ranked
 ```
 </details>
-### Sample Images and Graphs
+#### Sample Images and Graphs
 
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
