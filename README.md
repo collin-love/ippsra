@@ -130,6 +130,10 @@ There are 43 images in this dir
 --imgIdx IMGIDX       The index of the image that you want to show at the end 
                       of the script from a sorted list of images from best to 
                       worst. The default is 1 (the best ranked image) (default: 1)
+--showImages {True,False}
+                        Boolean for if you want to show (default: True)
+--showPlot {True,False}
+                        Boolean for if you want to plot the data (default: True)
 ```
 - By specifying True when running 
   ```python src/ippsra/rank_images.py --save True``` a CSV file with the name
