@@ -11,7 +11,7 @@
   - [Installation / Setup](#installation--setup)
   - [Environment Setup](#environment-setup)
   - [Example](#example)
-    - [Sample Images and Graphs](#sample-images-and-graphs)
+   - [Sample Images and Graphs](#sample-images-and-graphs)
   - [Change log](#change-log)
 
 
