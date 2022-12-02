@@ -3,7 +3,7 @@
 ## ippsra
 > Image Processing Pipeline for Space Robotic Applications
 
-### Table of Contents
+## Table of Contents
 
 - [ippsra](#ippsra)
   - [Table of Contents](#table-of-contents)
@@ -11,11 +11,11 @@
   - [Installation / Setup](#installation--setup)
   - [Environment Setup](#environment-setup)
   - [Example](#example)
-   - [Sample Images and Graphs](#sample-images-and-graphs)
+    - [Sample Images and Graphs](#sample-images-and-graphs)
   - [Change log](#change-log)
 
 
-### Usage
+## Usage
 - This repo is intended to be used from the main directory for this repo ie.
   ```cd ~./ippsra``` then run all commands 
   ```python src/ippsra/rank_images.py``` for example.
@@ -57,7 +57,7 @@ options:
 ```
 </details>
 
-### Installation / Setup
+## Installation / Setup
 - Clone this repository and cd into it
     ```
     git clone https://github.com/collin-love/ippsra.git
@@ -66,7 +66,7 @@ options:
     cd ippsra
     ```
 
-### Environment Setup
+## Environment Setup
 - ENV setup for this project below
     ```
     conda env create -f environment.yml
@@ -78,7 +78,7 @@ options:
   conda activate ippsra
   conda env update --file environment.yml --prune
   ```
-### Example
+## Example
 - The images that are used to test are in the data/test directory. This subset
   of data is a good representation of many cases of normal and outlier images
 - Once everything is set up in the repository, the following line can be ran
@@ -99,8 +99,9 @@ There are 43 images in this dir
 40 images have been ranked
 ```
 </details>
-#### Sample Images and Graphs
 
+  ### Sample Images and Graphs
+- Bellow are the sample images and graphs that can be created out--of--the--box
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
 <center><img src="/docs/img/violin.png" width="100%"/></center>
@@ -237,7 +238,7 @@ test_09.png,1312,0.41,3
 
 </details>
 
-### Change log
+## Change log
 - v1.0
   - This version contains functions and scripts that can be used to determine 
     the rough estimates of the density of obstructions in photos. In our case 
