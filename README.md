@@ -11,7 +11,7 @@
   - [Installation / Setup](#installation--setup)
   - [Environment Setup](#environment-setup)
   - [Example](#example)
-    - [Sample images and graphs that can be made with this repo](#sample-images-and-graphs-that-can-be-made-with-this-repo)
+    - [Sample images and graphs](#sample-images-and-graphs)
   - [Change log](#change-log)
 
 
@@ -99,7 +99,8 @@ There are 43 images in this dir
 40 images have been ranked
 ```
 </details>
-#### Sample images and graphs that can be made with this repo
+#### Sample images and graphs
+
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
 <center><img src="/docs/img/violin.png" width="100%"/></center>
