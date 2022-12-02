@@ -15,7 +15,7 @@ class TestAlgoDev(unittest.TestCase):
     def setUpClass(cls):
         cls.hazard_count = 69
         cls.hazard_count_false = 102
-        cls.img = './data/test_data/render9327.png'
+        cls.img = './data/unittest_image/render9327.png'
         cls.hazard_density = 0.04  # Hazard Density from test_img
         cls.hazard_density_false = 0.05  # NEED TO CHECK
         cls.hazard_score = 1  # NEED TO CHECK
