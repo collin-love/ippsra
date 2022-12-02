@@ -181,7 +181,7 @@ class ImageAnalysis():
         hazard_score = sorted_image_info['Hazard Score']
         for rank in image_data:
             if rank == filt_hazard_score:
-                filt_hazard_list = sorted_image_info.loc[
-                    image_data == 1]
+                filt_hazard_list = sorted_image_info.loc[image_data ==
+                                                         filt_hazard_score]
                 filt_hazard_list = filt_hazard_list.reset_index(drop=True)
                 return filt_hazard_list
