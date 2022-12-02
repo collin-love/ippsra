@@ -47,7 +47,7 @@ def get_args():
     parser.add_argument('--save', default='False',
                         help='Boolean for if you want to save the files',
                         choices=['True', 'False'])
-    parser.add_argument('--imgIdx', default='1',
+    parser.add_argument('--imgIdx', default='0',
                         help='The index of the image that you want to show at '
                         + 'the end of the script from a sorted list of images '
                         + 'from best to worst. The default is 1 (the best '
@@ -148,7 +148,7 @@ def rank_images():
         number_of_hazards_sort = sorted_image_info.sort_values(
             by='Number of Hazards', ascending=True)
 
-        # Pull ou all images that have a hazard score of 1
+        # Pull out all images that have a hazard score of 1
         filt_hazard_score = 1
         one_hazard = IA.single_hazards_list(filt_hazard_score,
                                             sorted_image_info)
@@ -179,7 +179,7 @@ def rank_images():
 
             # Full path to the image that will be displayed
             best_img = os.path.join(imageDir,
-                                    number_of_hazards_sort['Image Name'][1])
+                                    sorted_image_info['Image Name'][0])
             worst_img = os.path.join(imageDir,
                                      sorted_image_info['Image Name'].iloc[-1])
 
@@ -217,7 +217,7 @@ def rank_images():
 
             # Full path to the image that will be displayed
             best_img = os.path.join(imageDir,
-                                    number_of_hazards_sort['Image Name'][1])
+                                    sorted_image_info['Image Name'][0])
             worst_img = os.path.join(imageDir,
                                      sorted_image_info['Image Name'].iloc[-1])
 

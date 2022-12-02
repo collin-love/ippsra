@@ -118,7 +118,7 @@ def concat_image(img, save, showImages, fileName):
         cv.imshow('Original | Bounding Boxes Drawn', sidebyside)
         cv.waitKey()
     if save == 'True':
-        cv.imwrite(fileName, img)
+        cv.imwrite(fileName, sidebyside)
 
 
 def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,

@@ -6,7 +6,7 @@ import cv2 as cv
 import numpy as np
 import random as rng
 
-# defined thresh here to change values
+# defined threshold here to change values
 thresh = 200
 
 
