@@ -98,7 +98,7 @@ python src/ippsra/rank_images.py
   <br>
 
 ```
-There are 43 images in this dir
+There are 41 images in this dir
 0 images have been ranked
 20 images have been ranked
 40 images have been ranked
