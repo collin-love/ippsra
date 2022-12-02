@@ -26,34 +26,39 @@
 
 ```
 usage: rank_images.py [-h] [--Directory DIRECTORY]
-                      [--Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,
-                      pnm,sr,ras,tiff,tif,exr,hdr,pic}]
-                      [--csvPath CSVPATH] [--csvName CSVNAME] [--save {True,False}]
-                      [--imgIdx IMGIDX] [--showImages {True,False}] [--plot {True,False}]
+                      [--Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,
+                      ras,tiff,tif,exr,hdr,pic}]
+                      [--csvPath CSVPATH] [--csvName CSVNAME] [--fileName FILENAME]
+                      [--save {True,False}] [--imgIdx IMGIDX]
+                      [--showImages {True,False}] [--showPlot {True,False}]
 
-Code for ranking a directory of images on a custom scale that is defined at this following
-link https://github.com/collin-love/ippsra/blob/main/README.md
+Code for ranking a directory of images on a custom scale that is defined at this
+following link https://github.com/collin-love/ippsra/blob/main/README.md
 
 options:
--h, --help            show this help message and exit
---Directory DIRECTORY, -D DIRECTORY
-                      The PATH to the directory containing the images that are going to be
-                      processed (default: ./data/test_data)
---Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic},
--ext {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}
-                      A list of the extensions for the image data that is present in the
-                      directory for processing (default: png)
---csvPath CSVPATH     The PATH to the directory where the CSV file will be saved (default:
-                      ./data/processed_data)
---csvName CSVNAME     Then name of the CSV file that will be created (default:
-                      sorted_test.csv)
---save {True,False}   Boolean for if you want to save the files (default: False)
---imgIdx IMGIDX       The index of the image that you want to show at the end of the
-                      script from a sorted list of images from best to worst. The default
-                      is 1 (the best ranked image) (default: 1)
---showImages {True,False}
-                      Boolean for if you want to show images (default: True)
---plot {True,False}   Boolean for if you want to plot the data (default: True)
+  -h, --help            show this help message and exit
+  --Directory DIRECTORY, -D DIRECTORY
+                        The PATH to the directory containing the images that are going
+                        to be processed (default: ./data/test_data)
+  --Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic},
+  -ext {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}
+                        A list of the extensions for the image data that is present in
+                        the directory for processing (default: png)
+  --csvPath CSVPATH     The PATH to the directory where the CSV file will be saved
+                        (default: ./data/processed_data)
+  --csvName CSVNAME     Then name of the CSV file that will be created (default:
+                        sorted_test.csv)
+  --fileName FILENAME   The test name for the file. ex: if --fileName test1_ then this
+                        would result in test1_1_scatter.png (default:
+                        ./data/processed_data/Test_)
+  --save {True,False}   Boolean for if you want to save the files (default: False)
+  --imgIdx IMGIDX       The index of the image that you want to show at the end of the
+                        script from a sorted list of images from best to worst. The
+                        default is 1 (the best ranked image) (default: 1)
+  --showImages {True,False}
+                        Boolean for if you want to show (default: True)
+  --showPlot {True,False}
+                        Boolean for if you want to plot the data (default: True)
 ```
 </details>
 
@@ -93,7 +98,7 @@ python src/ippsra/rank_images.py
   <br>
 
 ```
-There are 43 images in this dir
+There are 41 images in this dir
 0 images have been ranked
 20 images have been ranked
 40 images have been ranked
@@ -125,15 +130,21 @@ There are 43 images in this dir
 --imgIdx IMGIDX       The index of the image that you want to show at the end 
                       of the script from a sorted list of images from best to 
                       worst. The default is 1 (the best ranked image) (default: 1)
+--showImages {True,False}
+                        Boolean for if you want to show (default: True)
+--showPlot {True,False}
+                        Boolean for if you want to plot the data (default: True)
 ```
 - By specifying True when running 
   ```python src/ippsra/rank_images.py --save True``` a CSV file with the name
   --csvName of the rankings will be provided to the --csvPath directory
-- For the defaults this command will create and populate two csv files in 
+- For the defaults this command will create and populate two CSV files in 
   this "**./data/processed_data/**" directory called "**sorted_test.csv**" and
   "**raw_data.csv**"
 - Also, specifying True or False for saving, plotting, and showing images will
-  either do the specified thing or not. 
+  either do the specified thing or not. Ex. 
+  ```python src/ippsra/rank_images.py --showPlots True --showImages True```
+   will show all the plots and images that are created
 - For the default arguments this will save all outputs to the "**./data/processed_data/**"    
   directory
 - To check this CSV the output will look like below
