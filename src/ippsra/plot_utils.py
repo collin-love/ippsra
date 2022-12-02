@@ -126,18 +126,14 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
         two_hazard (list): A list of the images with two hazards
         three_hazard (list): A list of the images with three hazards
         save (str): 'True' or 'False' to save the image from rank_images
-        argparese
+        argparse
         fileName (str): the str value of the file name to save the image
-        from rank_images argparese
+        from rank_images argparse
     """
-    # Defining used lists
-    one_hazard_images = []
-    two_hazard_images = []
-    three_hazard_images = []
-    scored_images = []
 
     # loop over the image paths and place them in one of the lists
     i = 0
+    one_hazard_images = []
     for _ in range(len(one_hazard)):
         one_hazard_path = os.path.join(imageDir,
                                        one_hazard['Image Name'][i])
@@ -146,6 +142,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
         i = i + 1
 
     i = 0
+    two_hazard_images = []
     for _ in range(len(two_hazard)):
         two_hazard_path = os.path.join(imageDir,
                                        two_hazard['Image Name'][i])
@@ -154,6 +151,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
         i = i + 1
 
     i = 0
+    three_hazard_images = []
     for _ in range(len(three_hazard)):
         three_hazard_path = os.path.join(imageDir,
                                          three_hazard['Image Name'][i])
@@ -163,6 +161,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
 
     # create a montage using 200x200 "tiles" with 3 rows and 3 columns
     i = 0
+    scored_images = []
     for img in range(len(one_hazard)):
         img = one_hazard_images[i]
         img = cv.resize(img, (400, 400))
