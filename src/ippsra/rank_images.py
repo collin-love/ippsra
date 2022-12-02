@@ -55,7 +55,7 @@ def get_args():
     parser.add_argument('--showImages', default='True',
                         help='Boolean for if you want to show',
                         choices=['True', 'False'])
-    parser.add_argument('--plot', default='True',
+    parser.add_argument('--showPlot', default='True',
                         help='Boolean for if you want to plot the data',
                         choices=['True', 'False'])
 
@@ -89,7 +89,7 @@ def rank_images():
     csvPath = args.csvPath
     csvName = args.csvName
     save = args.save
-    plot = args.plot
+    showPlot = args.showPlot
     showImages = args.showImages
     fileName = args.fileName
     imgIdx = int(args.imgIdx)
@@ -161,8 +161,51 @@ def rank_images():
         three_hazard = IA.single_hazards_list(filt_hazard_score,
                                               sorted_image_info)
 
+        # Plot and show all the images if requested
+        if showPlot == 'True':
+            # Plotting the data
+            fileNameScat = os.path.join(fileName + 'scatter_plot.png')
+            fileNameViol = os.path.join(fileName + 'violin_plot.png')
+            pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
+            pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
+
+        # Show all images if requested
+        if showImages == 'True':
+            # Setup all filenames for saving
+            fileNameBest = os.path.join(fileName + 'best.png')
+            fileNameWorst = os.path.join(fileName + 'worst.png')
+            fileNameUser = os.path.join(fileName + 'user.png')
+            fileNameComp = os.path.join(fileName + 'compilation.png')
+
+            # Full path to the image that will be displayed
+            best_img = os.path.join(imageDir,
+                                    number_of_hazards_sort['Image Name'][1])
+            worst_img = os.path.join(imageDir,
+                                     sorted_image_info['Image Name'].iloc[-1])
+
+            # Show the best and worst images with bounding boxes
+            pu.concat_image(best_img, save, showImages, fileNameBest)
+            pu.concat_image(worst_img, save, showImages, fileNameWorst)
+
+            # Display the user's choice of image
+            usr_image = os.path.join(imageDir,
+                                     sorted_image_info['Image Name'][imgIdx])
+            pu.show_img(usr_image, save, showImages, fileNameUser)
+
+            # Create a compilation of the ranked images
+            pu.compilation_rank(imageDir, one_hazard, two_hazard,
+                                three_hazard, save, showImages, fileNameComp)
+
         # Save the data frame to a csv file if the user specifies
         if save == 'True':
+            # Setup all filenames for saving
+            fileNameBest = os.path.join(fileName + 'best.png')
+            fileNameWorst = os.path.join(fileName + 'worst.png')
+            fileNameUser = os.path.join(fileName + 'user.png')
+            fileNameComp = os.path.join(fileName + 'compilation.png')
+            fileNameScat = os.path.join(fileName + 'scatter_plot.png')
+            fileNameViol = os.path.join(fileName + 'violin_plot.png')
+
             # Save the raw data to a CSV file
             image_info.to_csv(os.path.join(csvPath, 'raw_data.csv'),
                               index=False)
@@ -171,34 +214,30 @@ def rank_images():
             # the user's name
             sorted_image_info.to_csv(os.path.join(csvPath, csvName),
                                      index=False)
-        if plot == 'True':
-            # Plotting the data
-            pu.scatter_plot(sorted_image_info, save, fileName=os.path.join(
-                fileName + 'scatter_plot.png'))
-            pu.violinplot(sorted_image_info, save, fileName=os.path.join(
-                fileName + 'violin_plot.png'))
 
-        if showImages == 'True':
             # Full path to the image that will be displayed
             best_img = os.path.join(imageDir,
                                     number_of_hazards_sort['Image Name'][1])
             worst_img = os.path.join(imageDir,
                                      sorted_image_info['Image Name'].iloc[-1])
-            # Show the best and worst images with bounding boxes
-            pu.concat_image(best_img, save,
-                            fileName=os.path.join(fileName + 'best.png'))
-            pu.concat_image(worst_img, save,
-                            fileName=os.path.join(fileName + 'worst.png'))
+
             # Display the user's choice of image
             usr_image = os.path.join(imageDir,
                                      sorted_image_info['Image Name'][imgIdx])
-            pu.show_img(usr_image, save, fileName=os.path.join(fileName +
-                                                               'user.png'))
+            pu.show_img(usr_image, save, showImages, fileNameUser)
+
+            # Show the best and worst images with bounding boxes
+            pu.concat_image(best_img, save, showImages, fileNameBest)
+            pu.concat_image(worst_img, save, showImages, fileNameWorst)
+
             # Create a compilation of the ranked images
             pu.compilation_rank(imageDir, one_hazard, two_hazard,
-                                three_hazard, save,
-                                fileName=os.path.join(
-                                    fileName + 'compilation.png'))
+                                three_hazard, save, showImages, fileNameComp)
+            # Plotting the data
+            fileNameScat = os.path.join(fileName + 'scatter_plot.png')
+            fileNameViol = os.path.join(fileName + 'violin_plot.png')
+            pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
+            pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
 
 
 if __name__ == '__main__':
