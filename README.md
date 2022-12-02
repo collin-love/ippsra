@@ -3,7 +3,7 @@
 ## ippsra
 > Image Processing Pipeline for Space Robotic Applications
 
-### Table of Contents
+## Table of Contents
 
 - [ippsra](#ippsra)
   - [Table of Contents](#table-of-contents)
@@ -11,10 +11,11 @@
   - [Installation / Setup](#installation--setup)
   - [Environment Setup](#environment-setup)
   - [Example](#example)
+    - [Sample Images and Graphs](#sample-images-and-graphs)
   - [Change log](#change-log)
 
 
-### Usage
+## Usage
 - This repo is intended to be used from the main directory for this repo ie.
   ```cd ~./ippsra``` then run all commands 
   ```python src/ippsra/rank_images.py``` for example.
@@ -25,7 +26,8 @@
 
 ```
 usage: rank_images.py [-h] [--Directory DIRECTORY]
-                      [--Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}]
+                      [--Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,
+                      pnm,sr,ras,tiff,tif,exr,hdr,pic}]
                       [--csvPath CSVPATH] [--csvName CSVNAME] [--save {True,False}]
                       [--imgIdx IMGIDX] [--showImages {True,False}] [--plot {True,False}]
 
@@ -33,28 +35,29 @@ Code for ranking a directory of images on a custom scale that is defined at this
 link https://github.com/collin-love/ippsra/blob/main/README.md
 
 options:
-  -h, --help            show this help message and exit
-  --Directory DIRECTORY, -D DIRECTORY
-                        The PATH to the directory containing the images that are going to be
-                        processed (default: ./data/test_data)
-  --Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}, -ext {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}
-                        A list of the extensions for the image data that is present in the
-                        directory for processing (default: png)
-  --csvPath CSVPATH     The PATH to the directory where the CSV file will be saved (default:
-                        ./data/processed_data)
-  --csvName CSVNAME     Then name of the CSV file that will be created (default:
-                        sorted_test.csv)
-  --save {True,False}   Boolean for if you want to save the files (default: False)
-  --imgIdx IMGIDX       The index of the image that you want to show at the end of the
-                        script from a sorted list of images from best to worst. The default
-                        is 1 (the best ranked image) (default: 1)
-  --showImages {True,False}
-                        Boolean for if you want to show images (default: True)
-  --plot {True,False}   Boolean for if you want to plot the data (default: True)
+-h, --help            show this help message and exit
+--Directory DIRECTORY, -D DIRECTORY
+                      The PATH to the directory containing the images that are going to be
+                      processed (default: ./data/test_data)
+--Extension {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic},
+-ext {bmp,dib,jpeg,jpg,png,webp,pbm,pgm,ppm,pxm,pnm,sr,ras,tiff,tif,exr,hdr,pic}
+                      A list of the extensions for the image data that is present in the
+                      directory for processing (default: png)
+--csvPath CSVPATH     The PATH to the directory where the CSV file will be saved (default:
+                      ./data/processed_data)
+--csvName CSVNAME     Then name of the CSV file that will be created (default:
+                      sorted_test.csv)
+--save {True,False}   Boolean for if you want to save the files (default: False)
+--imgIdx IMGIDX       The index of the image that you want to show at the end of the
+                      script from a sorted list of images from best to worst. The default
+                      is 1 (the best ranked image) (default: 1)
+--showImages {True,False}
+                      Boolean for if you want to show images (default: True)
+--plot {True,False}   Boolean for if you want to plot the data (default: True)
 ```
 </details>
 
-### Installation / Setup
+## Installation / Setup
 - Clone this repository and cd into it
     ```
     git clone https://github.com/collin-love/ippsra.git
@@ -63,7 +66,7 @@ options:
     cd ippsra
     ```
 
-### Environment Setup
+## Environment Setup
 - ENV setup for this project below
     ```
     conda env create -f environment.yml
@@ -75,7 +78,7 @@ options:
   conda activate ippsra
   conda env update --file environment.yml --prune
   ```
-### Example
+## Example
 - The images that are used to test are in the data/test directory. This subset
   of data is a good representation of many cases of normal and outlier images
 - Once everything is set up in the repository, the following line can be ran
@@ -96,6 +99,9 @@ There are 43 images in this dir
 40 images have been ranked
 ```
 </details>
+
+  ### Sample Images and Graphs
+- Bellow are the sample images and graphs that can be created out--of--the--box
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
 <center><img src="/docs/img/violin.png" width="100%"/></center>
@@ -116,9 +122,9 @@ There are 43 images in this dir
 - These *params* can be varied
 ```
 --save {True,False}   Boolean for if you want to save the files (default: False)
-  --imgIdx IMGIDX       The index of the image that you want to show at the end of the
-                        script from a sorted list of images from best to worst. The
-                        default is 1 (the best ranked image) (default: 1)
+--imgIdx IMGIDX       The index of the image that you want to show at the end 
+                      of the script from a sorted list of images from best to 
+                      worst. The default is 1 (the best ranked image) (default: 1)
 ```
 - By specifying True when running 
   ```python src/ippsra/rank_images.py --save True``` a CSV file with the name
@@ -127,8 +133,10 @@ There are 43 images in this dir
   this "**./data/processed_data/**" directory called "**sorted_test.csv**" and
   "**raw_data.csv**"
 - Also, specifying True or False for saving, plotting, and showing images will
-  either do the specified thing or not
-- To check this csv the output will look like below
+  either do the specified thing or not. 
+- For the default arguments this will save all outputs to the "**./data/processed_data/**"    
+  directory
+- To check this CSV the output will look like below
 <details>
   <summary>The default Terminal Output</summary>
   <br>
@@ -230,70 +238,9 @@ test_09.png,1312,0.41,3
 
 </details>
 
-<!-- ### Example for running new unit and functional test 
-- 
-```
-for linux systems 
-cd ~/ippsra
-python -m unittest tests/unit/test_utils.py
-```
-- The output should like the below block of text. (these are testing CI, so
-  they don't mean anything at the moment)
-
-<details>
-  <summary> Unit Test Terminal Output</summary>
-  <br>
-
-```
-Height = 480,  Width = 720
-this Utils ran
-this tes_utils ran
-
-----------------------------------------------------------------------
-Ran 0 tests in 0.000s
-
-OK
-```
-</details>
-
-```
-for linux systems 
-cd ~/ippsra
-bash tests/func/test_func.sh
-```
-- The output should like the below block of text. (these are testing CI, so
-  they don't mean anything at the moment)
-
-<details>
-  <summary> Function Test Terminal Output</summary>
-  <br>
-
-```
-this func ran
-```
-
-</details> -->
-
-
-<!-- ### Example with a *specific variation* specified 
-- Once everything is setup in the repository, the following line can be ran 
-```
-for linux systems 
-cd ~/ippsra
-bash tests/unit/unittest.sh
-```
-- The output in the terminal will look like the following
-
-<details>
-  <summary>Terminal Output</summary>
-  <br>
-
-```
-```
-<center><img src="/docs/img/Thenvsnow.jpeg" width="100%"/></center>
-
-</details> -->
-
-### Change log
+## Change log
 - v1.0
-  - This version contains *X*
+  - This version contains functions and scripts that can be used to determine 
+    the rough estimates of the density of obstructions in photos. In our case 
+    we are using Lunar surface images and renders to test and evaluate the 
+    performance of the project.

@@ -40,6 +40,10 @@ def get_args():
                         + 'will be saved')
     parser.add_argument('--csvName', default='sorted_test.csv',
                         help='Then name of the CSV file that will be created')
+    parser.add_argument('--fileName', default='./data/processed_data/Test_',
+                        help='The test name for the file. ex: if '
+                        + '--fileName test1_  then this would result in '
+                        + 'test1_1_scatter.png')
     parser.add_argument('--save', default='False',
                         help='Boolean for if you want to save the files',
                         choices=['True', 'False'])
@@ -87,6 +91,7 @@ def rank_images():
     save = args.save
     plot = args.plot
     showImages = args.showImages
+    fileName = args.fileName
     imgIdx = int(args.imgIdx)
     file_exists = os.path.exists(csvPath + '/' + csvName)
 
@@ -168,8 +173,10 @@ def rank_images():
                                      index=False)
         if plot == 'True':
             # Plotting the data
-            pu.scatter_plot(sorted_image_info)
-            pu.violinplot(sorted_image_info)
+            pu.scatter_plot(sorted_image_info, save, fileName=os.path.join(
+                fileName + 'scatter_plot.png'))
+            pu.violinplot(sorted_image_info, save, fileName=os.path.join(
+                fileName + 'violin_plot.png'))
 
         if showImages == 'True':
             # Full path to the image that will be displayed
@@ -178,14 +185,20 @@ def rank_images():
             worst_img = os.path.join(imageDir,
                                      sorted_image_info['Image Name'].iloc[-1])
             # Show the best and worst images with bounding boxes
-            pu.concat_image(best_img)
-            pu.concat_image(worst_img)
+            pu.concat_image(best_img, save,
+                            fileName=os.path.join(fileName + 'best.png'))
+            pu.concat_image(worst_img, save,
+                            fileName=os.path.join(fileName + 'worst.png'))
             # Display the user's choice of image
             usr_image = os.path.join(imageDir,
                                      sorted_image_info['Image Name'][imgIdx])
-            pu.show_img(usr_image)
+            pu.show_img(usr_image, save, fileName=os.path.join(fileName +
+                                                               'user.png'))
             # Create a compilation of the ranked images
-            pu.compilation_rank(imageDir, one_hazard, two_hazard, three_hazard)
+            pu.compilation_rank(imageDir, one_hazard, two_hazard,
+                                three_hazard, save,
+                                fileName=os.path.join(
+                                    fileName + 'compilation.png'))
 
 
 if __name__ == '__main__':

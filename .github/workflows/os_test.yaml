@@ -1,4 +1,4 @@
-name: Style Check and Unittest
+name: Style Check and Unittest on different OS
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  pycodestyle:
+  linux_pycodestyle:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,7 +21,7 @@ jobs:
       - name: Run pycodestyle test
         run: pycodestyle $(git ls-files "*.py")
 
-  run_unit_test:
+  linux_run_unit_test:
     runs-on: ubuntu-latest
     defaults:
       run:

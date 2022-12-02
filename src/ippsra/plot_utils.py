@@ -28,7 +28,7 @@ xlabel_scat = 'Number of Hazards'
 sns.set(style="darkgrid")
 
 
-def scatter_plot(data):
+def scatter_plot(data, save, fileName):
     """A scatter plot to show the relationship between the number of hazards
 
     Args:
@@ -44,14 +44,14 @@ def scatter_plot(data):
                          alpha=0.3)
     fig, plt.ylabel(ylabel_scat)
     fig, plt.xlabel(xlabel_scat)
-    # fig, plt.legend()
     legend1 = ax.legend(*scatter.legend_elements(), title="Ranking")
-
     ax.add_artist(legend1)
+    if save == 'True':
+        fig, plt.savefig(fileName)
     plt.show()
 
 
-def violinplot(data):
+def violinplot(data, save, fileName):
     """A violin plot to show the distribution of the hazard score
 
     Args:
@@ -62,10 +62,12 @@ def violinplot(data):
 
     fig1 = plt.figure(dpi=150)
     fig1, sns.violinplot(x=Hazard_score, y=Density)
+    if save == 'True':
+        fig1, plt.savefig(fileName)
     plt.show()
 
 
-def show_img(img):
+def show_img(img, save, fileName):
     """This function shows an image in the window
 
     Args:
@@ -74,9 +76,11 @@ def show_img(img):
     img = cv.imread(img)
     cv.imshow('Original Image', img)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
 
-def show_obstruct(img):
+def show_obstruct(img, save, fileName):
     """A function to show the image with the bounding boxes of the obstructions
 
     Args:
@@ -89,9 +93,11 @@ def show_obstruct(img):
     img = cv.imread(img)
     cv.imshow('Image with bounded obstructions', drawing)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
 
-def concat_image(img):
+def concat_image(img, save, fileName):
     """A function to concatenate an original image with an image that contains
     the bounding boxes of the obstructions
 
@@ -106,25 +112,28 @@ def concat_image(img):
     sidebyside = np.concatenate((img, drawing), axis=1)
     cv.imshow('Original | Bounding Boxes Drawn', sidebyside)
     cv.waitKey()
+    if save == 'True':
+        cv.imwrite(fileName, img)
 
 
-def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
-    """_summary_
+def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
+                     save, fileName):
+    """A function to create a montage of the images ranked by hazard score
 
     Args:
-        imageDir (_type_): _description_
-        one_hazard (_type_): _description_
-        two_hazard (_type_): _description_
-        three_hazard (_type_): _description_
+        imageDir (str): The directory of the images
+        one_hazard (list): A list of the images with one hazard
+        two_hazard (list): A list of the images with two hazards
+        three_hazard (list): A list of the images with three hazards
+        save (str): 'True' or 'False' to save the image from rank_images
+        argparse
+        fileName (str): the str value of the file name to save the image
+        from rank_images argparse
     """
-    # Defining used lists
-    one_hazard_images = []
-    two_hazard_images = []
-    three_hazard_images = []
-    scored_images = []
 
     # loop over the image paths and place them in one of the lists
     i = 0
+    one_hazard_images = []
     for _ in range(len(one_hazard)):
         one_hazard_path = os.path.join(imageDir,
                                        one_hazard['Image Name'][i])
@@ -133,6 +142,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
         i = i + 1
 
     i = 0
+    two_hazard_images = []
     for _ in range(len(two_hazard)):
         two_hazard_path = os.path.join(imageDir,
                                        two_hazard['Image Name'][i])
@@ -141,6 +151,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
         i = i + 1
 
     i = 0
+    three_hazard_images = []
     for _ in range(len(three_hazard)):
         three_hazard_path = os.path.join(imageDir,
                                          three_hazard['Image Name'][i])
@@ -150,6 +161,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
 
     # create a montage using 200x200 "tiles" with 3 rows and 3 columns
     i = 0
+    scored_images = []
     for img in range(len(one_hazard)):
         img = one_hazard_images[i]
         img = cv.resize(img, (400, 400))
@@ -189,9 +201,11 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard):
                        scored_images[(len(one_hazard) + len(two_hazard) + 2)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 3)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 4)]]
-    cv.imshow("Ranked Compilation",
-              build_montages(selected_images, (200, 200), (3, 3))[0])
+    montage = build_montages(selected_images, (200, 200), (3, 3))[0]
+    cv.imshow("Ranked Compilation", montage)
     cv.waitKey(0)
+    if save == 'True':
+        cv.imwrite(fileName, montage)
 
 
 if __name__ == '__main__':
