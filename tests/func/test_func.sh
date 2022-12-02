@@ -7,7 +7,7 @@ run test_stdout python src/ippsra/rank_images.py --save False --showPlot False -
 assert_stdout
 
 run test_in_stdout python src/ippsra/rank_images.py --save False --showPlot False --showImages False
-assert_in_stdout "There are 43 images in this dir"
+assert_in_stdout "There are 41 images in this dir"
 
 run test_in_stderr python src/ippsra/rank_images.py --save  --showPlot --showImages
 assert_in_stderr "usage: rank_images.py [-h] [--Directory DIRECTORY]"

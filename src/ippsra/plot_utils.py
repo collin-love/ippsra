@@ -199,13 +199,13 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
         i = i + 1
 
     # convert scored_images to a numpy array of select images
-    selected_images = [scored_images[1], scored_images[2], scored_images[3],
+    selected_images = [scored_images[0], scored_images[1], scored_images[2],
+                       scored_images[(len(one_hazard) + 1)],
                        scored_images[(len(one_hazard) + 2)],
                        scored_images[(len(one_hazard) + 3)],
-                       scored_images[(len(one_hazard) + 4)],
+                       scored_images[(len(one_hazard) + len(two_hazard) + 1)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 2)],
-                       scored_images[(len(one_hazard) + len(two_hazard) + 3)],
-                       scored_images[(len(one_hazard) + len(two_hazard) + 4)]]
+                       scored_images[(len(one_hazard) + len(two_hazard) + 3)]]
     montage = build_montages(selected_images, (200, 200), (3, 3))[0]
     if showImages == 'True':
         cv.imshow("Ranked Compilation", montage)
