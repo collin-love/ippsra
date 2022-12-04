@@ -57,7 +57,7 @@ options:
                         default is 1 (the best ranked image) (default: 1)
   --showImages {True,False}
                         Boolean for if you want to show (default: True)
-  --showPlot {True,False}
+  --showPlots {True,False}
                         Boolean for if you want to plot the data (default: True)
 ```
 </details>
@@ -132,7 +132,7 @@ There are 41 images in this dir
                       worst. The default is 1 (the best ranked image) (default: 1)
 --showImages {True,False}
                         Boolean for if you want to show (default: True)
---showPlot {True,False}
+--showPlots {True,False}
                         Boolean for if you want to plot the data (default: True)
 ```
 - By specifying True when running 

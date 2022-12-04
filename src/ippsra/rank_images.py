@@ -55,7 +55,7 @@ def get_args():
     parser.add_argument('--showImages', default='True',
                         help='Boolean for if you want to show',
                         choices=['True', 'False'])
-    parser.add_argument('--showPlot', default='True',
+    parser.add_argument('--showPlots', default='True',
                         help='Boolean for if you want to plot the data',
                         choices=['True', 'False'])
 
@@ -89,7 +89,7 @@ def rank_images():
     csvPath = args.csvPath
     csvName = args.csvName
     save = args.save
-    showPlot = args.showPlot
+    showPlots = args.showPlots
     showImages = args.showImages
     fileName = args.fileName
     imgIdx = int(args.imgIdx)
@@ -162,7 +162,7 @@ def rank_images():
                                               sorted_image_info)
 
         # Plot and show all the images if requested
-        if showPlot == 'True':
+        if showPlots == 'True':
             # Plotting the data
             fileNameScat = os.path.join(fileName + 'scatter_plot.png')
             fileNameViol = os.path.join(fileName + 'violin_plot.png')
