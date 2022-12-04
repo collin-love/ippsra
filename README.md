@@ -56,7 +56,7 @@ options:
                         script from a sorted list of images from best to worst. The
                         default is 1 (the best ranked image) (default: 1)
   --showImages {True,False}
-                        Boolean for if you want to show (default: True)
+                        Boolean for if you want to show images(default: True)
   --showPlots {True,False}
                         Boolean for if you want to plot the data (default: True)
 ```
@@ -131,7 +131,7 @@ There are 41 images in this dir
                       of the script from a sorted list of images from best to 
                       worst. The default is 1 (the best ranked image) (default: 1)
 --showImages {True,False}
-                        Boolean for if you want to show (default: True)
+                        Boolean for if you want to show images(default: True)
 --showPlots {True,False}
                         Boolean for if you want to plot the data (default: True)
 ```
