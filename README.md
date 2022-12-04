@@ -54,7 +54,7 @@ options:
   --save {True,False}   Boolean for if you want to save the files (default: False)
   --imgIdx IMGIDX       The index of the image that you want to show at the end of the
                         script from a sorted list of images from best to worst. The
-                        default is 1 (the best ranked image) (default: 1)
+                        default is 0 (the best ranked image) (default: 0)
   --showImages {True,False}
                         Boolean for if you want to show images(default: True)
   --showPlots {True,False}
@@ -88,8 +88,9 @@ options:
   of data is a good representation of many cases of normal and outlier images
 - Once everything is set up in the repository, the following line can be ran
   from the home directory for the project.
+- The default command ``` python src/ippsra/rank_images.py ``` is represented below
 ```
-python src/ippsra/rank_images.py
+python src/ippsra/rank_images.py --Directory ./data/test_data --Extension png --csvPath ./data/processed_data --csvName sorted_test.csv --fileName ./data/processed_data/Test_--save False --imgIdx 0 --showPlots True --showImages True
 ```
 - The output in the terminal will look like the following and some images will
   be displayed on the screen

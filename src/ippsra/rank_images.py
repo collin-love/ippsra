@@ -50,7 +50,7 @@ def get_args():
     parser.add_argument('--imgIdx', default='0',
                         help='The index of the image that you want to show at '
                         + 'the end of the script from a sorted list of images '
-                        + 'from best to worst. The default is 1 (the best '
+                        + 'from best to worst. The default is 0 (the best '
                         + 'ranked image)')
     parser.add_argument('--showImages', default='True',
                         help='Boolean for if you want to show images',
