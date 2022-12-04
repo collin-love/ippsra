@@ -124,7 +124,7 @@ There are 41 images in this dir
 <center><img src="/docs/img/compilation.png" width="100%"/></center>
 
 
-- These *params* can be varied
+- These parameters can be varied
 ```
 --save {True,False}   Boolean for if you want to save the files (default: False)
 --imgIdx IMGIDX       The index of the image that you want to show at the end 
