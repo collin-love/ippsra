@@ -53,7 +53,7 @@ def get_args():
                         + 'from best to worst. The default is 1 (the best '
                         + 'ranked image)')
     parser.add_argument('--showImages', default='True',
-                        help='Boolean for if you want to show',
+                        help='Boolean for if you want to show images',
                         choices=['True', 'False'])
     parser.add_argument('--showPlots', default='True',
                         help='Boolean for if you want to plot the data',
