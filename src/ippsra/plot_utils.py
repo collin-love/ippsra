@@ -28,7 +28,7 @@ xlabel_scat = 'Number of Hazards'
 sns.set(style="darkgrid")
 
 
-def scatter_plot(data, save, showImages, fileName):
+def scatter_plot(data, save, showPlots, fileName):
     """A scatter plot to show the relationship between the number of hazards
 
     Args:
@@ -40,19 +40,15 @@ def scatter_plot(data, save, showImages, fileName):
     Hazard_score = data['Hazard Score']
 
     fig, ax = plt.subplots(dpi=150)
-    scatter = ax.scatter(Hazards, Density, c=Hazard_score, cmap='cool',
-                         alpha=0.3)
-    fig, plt.ylabel(ylabel_scat)
-    fig, plt.xlabel(xlabel_scat)
-    legend1 = ax.legend(*scatter.legend_elements(), title="Ranking")
-    ax.add_artist(legend1)
+    sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score, palette="cool",
+                    alpha=alpha, legend="full")
     if save == 'True':
         fig, plt.savefig(fileName)
-    if showImages == 'True':
+    if showPlots == 'True':
         plt.show()
 
 
-def violinplot(data, save, showImages, fileName):
+def violinplot(data, save, showPlots, fileName):
     """A violin plot to show the distribution of the hazard score
 
     Args:
@@ -65,9 +61,34 @@ def violinplot(data, save, showImages, fileName):
     fig1, sns.violinplot(x=Hazard_score, y=Density)
     if save == 'True':
         fig1, plt.savefig(fileName)
-    if showImages == 'True':
+    if showPlots == 'True':
         plt.show()
 
+
+def scat_violin(data, save, showPlots, fileName):
+    """A violin plot to show the distribution of the hazard score
+
+    Args:
+        data (csv): The data file created from the rank_images script
+    """
+    alpha = 0.3
+    Hazards = data['Number of Hazards']
+    Density = data['Density of Hazards']
+    Hazard_score = data['Hazard Score']
+
+    fig2, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+
+    # # Plot the scatter plot
+    sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score, palette="cool",
+                    alpha=alpha, legend="full", ax=ax[0])
+
+    # Plot the violin plot
+    sns.violinplot(x=Hazard_score, y=Density, ax=ax[1])
+
+    if save == 'True':
+        fig2, plt.savefig(fileName)
+    if showPlots == 'True':
+        plt.show()
 
 def show_img(img, save, showImages, fileName):
     """This function shows an image in the window

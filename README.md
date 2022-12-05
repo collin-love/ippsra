@@ -108,9 +108,14 @@ There are 41 images in this dir
 
   ### Sample Images and Graphs
 - Bellow are the sample images and graphs that can be created out--of--the--box
+- Scatter plot for the data
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
+- Violin plot for the data
 <center><img src="/docs/img/violin.png" width="100%"/></center>
+
+- Both plots side by side
+<center><img src="/docs/img/scat_viol.png" width="100%"/></center>
 
 - This first lunar image is the best image from the ranking
 <center><img src="/docs/img/BestLunar.png" width="100%"/></center>

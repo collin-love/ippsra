@@ -62,7 +62,7 @@ def get_args():
     return parser.parse_args()
 
 
-def rank_images():
+def rank_images():  # sourcery skip: extract-method
     """The main script in this repository that will iterate through a directory
     and output ranked data to a CSV file in the name of the user's choice and
     location.
@@ -166,8 +166,10 @@ def rank_images():
             # Plotting the data
             fileNameScat = os.path.join(fileName + 'scatter_plot.png')
             fileNameViol = os.path.join(fileName + 'violin_plot.png')
-            pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
-            pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
+            fileNameBoth = os.path.join(fileName + 'scat_viol.png')
+            pu.scatter_plot(sorted_image_info, save, showPlots, fileNameScat)
+            pu.violinplot(sorted_image_info, save, showPlots, fileNameViol)
+            pu.scat_violin(sorted_image_info, save, showPlots, fileNameBoth)
 
         # Show all images if requested
         if showImages == 'True':
