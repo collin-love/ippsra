@@ -103,14 +103,22 @@ There are 41 images in this dir
 0 images have been ranked
 20 images have been ranked
 40 images have been ranked
+There are 26 images with a hazard score of 1
+There are 7 images with a hazard score of 2
+There are 8 images with a hazard score of 3
 ```
 </details>
 
   ### Sample Images and Graphs
 - Bellow are the sample images and graphs that can be created out--of--the--box
+- Scatter plot for the data
 <center><img src="/docs/img/scatter.png" width="100%"/></center>
 
+- Violin plot for the data
 <center><img src="/docs/img/violin.png" width="100%"/></center>
+
+- Both plots side by side
+<center><img src="/docs/img/scat_viol.png" width="100%"/></center>
 
 - This first lunar image is the best image from the ranking
 <center><img src="/docs/img/BestLunar.png" width="100%"/></center>

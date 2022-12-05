@@ -62,7 +62,7 @@ def get_args():
     return parser.parse_args()
 
 
-def rank_images():
+def rank_images():  # sourcery skip: extract-method
     """The main script in this repository that will iterate through a directory
     and output ranked data to a CSV file in the name of the user's choice and
     location.
@@ -152,31 +152,35 @@ def rank_images():
         filt_hazard_score = 1
         one_hazard = IA.single_hazards_list(filt_hazard_score,
                                             sorted_image_info)
+        print(f'There are {len(one_hazard)} images with a hazard score of 1')
         # Pull out all images that have a hazard score of 2
         filt_hazard_score = 2
         two_hazard = IA.single_hazards_list(filt_hazard_score,
                                             sorted_image_info)
+        print(f'There are {len(two_hazard)} images with a hazard score of 2')
         # Pull out all images that have a hazard score of 3
         filt_hazard_score = 3
         three_hazard = IA.single_hazards_list(filt_hazard_score,
                                               sorted_image_info)
+        print(f'There are {len(three_hazard)} images with a hazard score of 3')
+
+        # Setup all filenames for saving
+        fileNameBest = os.path.join(fileName + 'best.png')
+        fileNameWorst = os.path.join(fileName + 'worst.png')
+        fileNameUser = os.path.join(fileName + 'user.png')
+        fileNameComp = os.path.join(fileName + 'compilation.png')
+        fileNameScat = os.path.join(fileName + 'scatter_plot.png')
+        fileNameViol = os.path.join(fileName + 'violin_plot.png')
+        fileNameSctVil = os.path.join(fileName + 'scat_viol.png')
 
         # Plot and show all the images if requested
         if showPlots == 'True':
-            # Plotting the data
-            fileNameScat = os.path.join(fileName + 'scatter_plot.png')
-            fileNameViol = os.path.join(fileName + 'violin_plot.png')
-            pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
-            pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
+            pu.scatter_plot(sorted_image_info, save, showPlots, fileNameScat)
+            pu.violinplot(sorted_image_info, save, showPlots, fileNameViol)
+            pu.scat_violin(sorted_image_info, save, showPlots, fileNameSctVil)
 
         # Show all images if requested
         if showImages == 'True':
-            # Setup all filenames for saving
-            fileNameBest = os.path.join(fileName + 'best.png')
-            fileNameWorst = os.path.join(fileName + 'worst.png')
-            fileNameUser = os.path.join(fileName + 'user.png')
-            fileNameComp = os.path.join(fileName + 'compilation.png')
-
             # Full path to the image that will be displayed
             best_img = os.path.join(imageDir,
                                     sorted_image_info['Image Name'][0])
@@ -198,14 +202,6 @@ def rank_images():
 
         # Save the data frame to a csv file if the user specifies
         if save == 'True':
-            # Setup all filenames for saving
-            fileNameBest = os.path.join(fileName + 'best.png')
-            fileNameWorst = os.path.join(fileName + 'worst.png')
-            fileNameUser = os.path.join(fileName + 'user.png')
-            fileNameComp = os.path.join(fileName + 'compilation.png')
-            fileNameScat = os.path.join(fileName + 'scatter_plot.png')
-            fileNameViol = os.path.join(fileName + 'violin_plot.png')
-
             # Save the raw data to a CSV file
             image_info.to_csv(os.path.join(csvPath, 'raw_data.csv'),
                               index=False)
@@ -238,6 +234,7 @@ def rank_images():
             fileNameViol = os.path.join(fileName + 'violin_plot.png')
             pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
             pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
+            pu.scat_violin(sorted_image_info, save, showPlots, fileNameSctVil)
 
 
 if __name__ == '__main__':
