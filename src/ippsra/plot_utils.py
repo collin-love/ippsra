@@ -79,11 +79,11 @@ def scat_violin(data, save, showPlots, fileName):
     fig2, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
 
     # # Plot the scatter plot
-    sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score, palette="cool",
+    fig2, sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score, palette="cool",
                     alpha=alpha, legend="full", ax=ax[0])
 
     # Plot the violin plot
-    sns.violinplot(x=Hazard_score, y=Density, ax=ax[1])
+    fig2, sns.violinplot(x=Hazard_score, y=Density, ax=ax[1])
 
     if save == 'True':
         fig2, plt.savefig(fileName)
