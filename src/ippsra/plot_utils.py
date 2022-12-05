@@ -77,18 +77,17 @@ def scat_violin(data, save, showPlots, fileName):
     Hazard_score = data['Hazard Score']
 
     fig2, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
-
     # # Plot the scatter plot
-    fig2, sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score, palette="cool",
-                    alpha=alpha, legend="full", ax=ax[0])
-
+    fig2, sns.scatterplot(x=Hazards, y=Density, hue=Hazard_score,
+                          palette="cool", alpha=alpha, legend="full",
+                          ax=ax[0])
     # Plot the violin plot
     fig2, sns.violinplot(x=Hazard_score, y=Density, ax=ax[1])
-
     if save == 'True':
         fig2, plt.savefig(fileName)
     if showPlots == 'True':
         plt.show()
+
 
 def show_img(img, save, showImages, fileName):
     """This function shows an image in the window

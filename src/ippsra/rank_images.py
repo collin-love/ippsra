@@ -163,7 +163,6 @@ def rank_images():  # sourcery skip: extract-method
         three_hazard = IA.single_hazards_list(filt_hazard_score,
                                               sorted_image_info)
         print(f'There are {len(three_hazard)} images with a hazard score of 3')
-        
 
         # Setup all filenames for saving
         fileNameBest = os.path.join(fileName + 'best.png')
@@ -172,13 +171,13 @@ def rank_images():  # sourcery skip: extract-method
         fileNameComp = os.path.join(fileName + 'compilation.png')
         fileNameScat = os.path.join(fileName + 'scatter_plot.png')
         fileNameViol = os.path.join(fileName + 'violin_plot.png')
-        fileNameScatViol = os.path.join(fileName + 'scat_viol.png')
+        fileNameSctVil = os.path.join(fileName + 'scat_viol.png')
 
         # Plot and show all the images if requested
         if showPlots == 'True':
             pu.scatter_plot(sorted_image_info, save, showPlots, fileNameScat)
             pu.violinplot(sorted_image_info, save, showPlots, fileNameViol)
-            pu.scat_violin(sorted_image_info, save, showPlots, fileNameScatViol)
+            pu.scat_violin(sorted_image_info, save, showPlots, fileNameSctVil)
 
         # Show all images if requested
         if showImages == 'True':
@@ -235,7 +234,7 @@ def rank_images():  # sourcery skip: extract-method
             fileNameViol = os.path.join(fileName + 'violin_plot.png')
             pu.scatter_plot(sorted_image_info, save, showImages, fileNameScat)
             pu.violinplot(sorted_image_info, save, showImages, fileNameViol)
-            pu.scat_violin(sorted_image_info, save, showPlots, fileNameScatViol)
+            pu.scat_violin(sorted_image_info, save, showPlots, fileNameSctVil)
 
 
 if __name__ == '__main__':
