@@ -103,6 +103,9 @@ There are 41 images in this dir
 0 images have been ranked
 20 images have been ranked
 40 images have been ranked
+There are 26 images with a hazard score of 1
+There are 7 images with a hazard score of 2
+There are 8 images with a hazard score of 3
 ```
 </details>
 
