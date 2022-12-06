@@ -62,22 +62,18 @@ def get_args():
     return parser.parse_args()
 
 
-def rank_images():  # sourcery skip: extract-method
+def rank_images():
     """The main script in this repository that will iterate through a directory
     and output ranked data to a CSV file in the name of the user's choice and
-    location.
+    location. As well as other plots with the use of the plot_utils.py script
 
     Raises:
         OSError: The specified directory does not exist
         OSError: The specified directory does not contain any images
-
-    Outputs:
-        Images: Images with or without bounding boxes that
-               identify the hazards in the image displayed to a window.
-        Compilation: A compilation of images with their corresponding ranking
-                    will be displayed in a window.
-        Ranking Chart: A graphic (that can be toggled on or off) will display
-                      the ranking clarification.
+        OSError: The specified directory has data created with the same
+        specified name
+        OSError: The directory that the CSV file is to be saved to does not
+        exist
     """
     args = get_args()
 
@@ -142,11 +138,9 @@ def rank_images():  # sourcery skip: extract-method
 
         # Create a data frame from the nested lists
         image_info = pd.DataFrame(Is, columns=header, index=None)
+        # Sort the data by the density of hazards
         sorted_image_info = image_info.sort_values(
             by='Density of Hazards', ascending=True)
-        # Second sort to sor the data by the number of hazards
-        number_of_hazards_sort = sorted_image_info.sort_values(
-            by='Number of Hazards', ascending=True)
 
         # Pull out all images that have a hazard score of 1
         filt_hazard_score = 1
@@ -183,9 +177,11 @@ def rank_images():  # sourcery skip: extract-method
         if showImages == 'True':
             # Full path to the image that will be displayed
             best_img = os.path.join(imageDir,
-                                    sorted_image_info['Image Name'][0])
+                                    sorted_image_info['Image Name'].iloc[1])
             worst_img = os.path.join(imageDir,
-                                     sorted_image_info['Image Name'].iloc[-1])
+                                     sorted_image_info['Image Name'].iloc[
+                                         (len(one_hazard)
+                                          + len(two_hazard) + 3)])
 
             # Show the best and worst images with bounding boxes
             pu.concat_image(best_img, save, showImages, fileNameBest)
@@ -203,6 +199,7 @@ def rank_images():  # sourcery skip: extract-method
         # Save the data frame to a csv file if the user specifies
         if save == 'True':
             # Save the raw data to a CSV file
+            # Comment out if you don't want to save the raw data
             image_info.to_csv(os.path.join(csvPath, 'raw_data.csv'),
                               index=False)
 

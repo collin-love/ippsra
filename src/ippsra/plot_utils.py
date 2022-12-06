@@ -184,7 +184,7 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
         three_hazard_images.append(image)
         i = i + 1
 
-    # create a montage using 200x200 "tiles" with 3 rows and 3 columns
+    # create a montage using 400x400 "tiles" with 3 rows and 3 columns
     i = 0
     scored_images = []
     for img in range(len(one_hazard)):
@@ -217,15 +217,15 @@ def compilation_rank(imageDir, one_hazard, two_hazard, three_hazard,
                        (35, 35), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
             )
         i = i + 1
-
     # convert scored_images to a numpy array of select images
-    selected_images = [scored_images[0], scored_images[1], scored_images[2],
+    selected_images = [scored_images[1], scored_images[2], scored_images[3],
                        scored_images[(len(one_hazard) + 1)],
                        scored_images[(len(one_hazard) + 2)],
                        scored_images[(len(one_hazard) + 3)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 1)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 2)],
                        scored_images[(len(one_hazard) + len(two_hazard) + 3)]]
+
     montage = build_montages(selected_images, (200, 200), (3, 3))[0]
     if showImages == 'True':
         cv.imshow("Ranked Compilation", montage)
